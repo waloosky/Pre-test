@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Capacitors Quiz — 6th Scientific Grade | Al-Mutamayizeen</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── CSS Custom Properties ─────────────────────────────── */
+    :root {
+      --bg-start:        #0d1117;
+      --bg-end:          #0f1923;
+      --glass-bg:        rgba(255, 255, 255, 0.04);
+      --glass-border:    rgba(255, 255, 255, 0.10);
+      --glass-highlight: rgba(255, 255, 255, 0.07);
+
+      --cyan:            #00e5ff;
+      --purple:          #a78bfa;
+      --blue:            #3b82f6;
+      --green:           #22d3a5;
+      --red:             #f43f5e;
+
+      --text-primary:    #f0f6fc;
+      --text-secondary:  #8b949e;
+      --text-muted:      #4a5568;
+
+      --font-display:    'Space Grotesk', sans-serif;
+      --font-body:       'Inter', sans-serif;
+
+      --radius-card:     24px;
+      --radius-btn:      14px;
+      --radius-pill:     999px;
+
+      --transition:      0.28s cubic-bezier(0.4, 0, 0.2, 1);
+      --shadow-glow:     0 0 40px rgba(0, 229, 255, 0.18),
+                         0 0 80px rgba(167, 139, 250, 0.10),
+                         0 0 120px rgba(59, 130, 246, 0.08);
+    }
+
+    /* ─── Reset & Base ──────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: linear-gradient(135deg, var(--bg-start) 0%, var(--bg-end) 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 40px 16px 80px;
+      color: var(--text-primary);
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* ─── Abstract Floating Background Blobs ───────────────── */
+    .bg-blob {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(90px);
+      pointer-events: none;
+      z-index: 0;
+      animation: blobFloat 12s ease-in-out infinite alternate;
+    }
+    .blob-1 {
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(0,229,255,0.10) 0%, transparent 70%);
+      top: -100px; left: -120px;
+      animation-delay: 0s;
+    }
+    .blob-2 {
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(167,139,250,0.09) 0%, transparent 70%);
+      bottom: -150px; right: -180px;
+      animation-delay: -4s;
+    }
+    .blob-3 {
+      width: 350px; height: 350px;
+      background: radial-gradient(circle, rgba(59,130,246,0.08) 0%, transparent 70%);
+      top: 45%; left: 55%;
+      animation-delay: -8s;
+    }
+
+    @keyframes blobFloat {
+      from { transform: translate(0, 0) scale(1); }
+      to   { transform: translate(30px, 20px) scale(1.06); }
+    }
+
+    /* ─── Main Container ────────────────────────────────────── */
+    .quiz-wrapper {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 820px;
+    }
+
+    /* ─── Header Bento Block ────────────────────────────────── */
+    .header-block {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .chapter-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--cyan);
+      background: rgba(0, 229, 255, 0.08);
+      border: 1px solid rgba(0, 229, 255, 0.2);
+      padding: 6px 14px;
+      border-radius: var(--radius-pill);
+      margin-bottom: 20px;
+    }
+
+    .chapter-eyebrow::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--cyan);
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.4; transform: scale(0.7); }
+    }
+
+    .quiz-title {
+      font-family: var(--font-display);
+      font-size: clamp(28px, 5vw, 48px);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -1px;
+      background: linear-gradient(135deg, #f0f6fc 30%, var(--purple) 70%, var(--cyan) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 12px;
+    }
+
+    .quiz-subtitle {
+      font-size: 14px;
+      color: var(--text-secondary);
+      font-weight: 400;
+      letter-spacing: 0.2px;
+    }
+
+    /* ─── Progress Bento Block ──────────────────────────────── */
+    .progress-block {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: var(--radius-card);
+      padding: 20px 24px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .progress-info {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      flex-shrink: 0;
+    }
+
+    .progress-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-weight: 600;
+    }
+
+    .progress-counter {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .progress-counter span {
+      color: var(--text-muted);
+      font-size: 16px;
+      font-weight: 400;
+    }
+
+    .progress-bar-track {
+      flex: 1;
+      height: 6px;
+      background: rgba(255,255,255,0.06);
+      border-radius: var(--radius-pill);
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--blue), var(--cyan));
+      border-radius: var(--radius-pill);
+      transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      width: 0%;
+      box-shadow: 0 0 12px rgba(0,229,255,0.4);
+    }
+
+    .score-pill {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      flex-shrink: 0;
+    }
+
+    .score-pill-label {
+      font-size: 10px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-weight: 600;
+    }
+
+    .score-pill-value {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--green);
+    }
+
+    /* ─── Quiz Card (Glassmorphic Bento) ────────────────────── */
+    .quiz-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      border-radius: var(--radius-card);
+      padding: 36px 40px;
+      box-shadow: var(--shadow-glow), 0 24px 64px rgba(0,0,0,0.4);
+      position: relative;
+      overflow: hidden;
+      transition: box-shadow var(--transition);
+    }
+
+    /* Subtle top shimmer line */
+    .quiz-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(0,229,255,0.4), rgba(167,139,250,0.4), transparent);
+    }
+
+    /* ─── Part Badge ────────────────────────────────────────── */
+    .part-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: var(--radius-pill);
+      margin-bottom: 16px;
+      background: rgba(167, 139, 250, 0.1);
+      border: 1px solid rgba(167, 139, 250, 0.25);
+      color: var(--purple);
+    }
+
+    /* ─── Question Text ─────────────────────────────────────── */
+    .question-number {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .question-text {
+      font-family: var(--font-display);
+      font-size: clamp(16px, 2.5vw, 20px);
+      font-weight: 600;
+      line-height: 1.65;
+      color: var(--text-primary);
+      margin-bottom: 30px;
+    }
+
+    /* ─── Option Buttons ────────────────────────────────────── */
+    .options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 0;
+    }
+
+    .option-btn {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 20px;
+      background: rgba(255,255,255,0.04);
+      border: 1.5px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius-btn);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 400;
+      line-height: 1.5;
+      text-align: left;
+      cursor: pointer;
+      transition: all var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .option-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255,255,255,0.0);
+      transition: background var(--transition);
+    }
+
+    .option-btn:hover:not(:disabled) {
+      background: rgba(255,255,255,0.07);
+      border-color: rgba(0,229,255,0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(0,229,255,0.08);
+    }
+
+    .option-btn:active:not(:disabled) {
+      transform: translateY(0);
+    }
+
+    .option-btn:disabled {
+      cursor: default;
+    }
+
+    .option-letter {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 9px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 700;
+      flex-shrink: 0;
+      color: var(--text-secondary);
+      transition: all var(--transition);
+    }
+
+    .option-text {
+      flex: 1;
+    }
+
+    /* Correct State */
+    .option-btn.correct {
+      background: rgba(34, 211, 165, 0.08);
+      border-color: var(--green);
+      box-shadow: 0 0 0 1px rgba(34,211,165,0.3), 0 0 20px rgba(34,211,165,0.15);
+    }
+
+    .option-btn.correct .option-letter {
+      background: var(--green);
+      border-color: var(--green);
+      color: #0d1117;
+    }
+
+    /* Incorrect State */
+    .option-btn.incorrect {
+      background: rgba(244, 63, 94, 0.07);
+      border-color: var(--red);
+      box-shadow: 0 0 0 1px rgba(244,63,94,0.3), 0 0 20px rgba(244,63,94,0.12);
+    }
+
+    .option-btn.incorrect .option-letter {
+      background: var(--red);
+      border-color: var(--red);
+      color: #fff;
+    }
+
+    /* ─── Explanation Box ───────────────────────────────────── */
+    .explanation-box {
+      display: none;
+      margin-top: 24px;
+      padding: 20px 22px;
+      background: rgba(167, 139, 250, 0.06);
+      border: 1px solid rgba(167, 139, 250, 0.2);
+      border-radius: 16px;
+      animation: fadeSlideIn 0.4s ease forwards;
+    }
+
+    .explanation-box.visible {
+      display: block;
+    }
+
+    @keyframes fadeSlideIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .explanation-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .explanation-icon {
+      width: 28px; height: 28px;
+      border-radius: 8px;
+      background: rgba(167,139,250,0.15);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .explanation-label {
+      font-family: var(--font-display);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+      color: var(--purple);
+    }
+
+    .explanation-text {
+      font-size: 14px;
+      line-height: 1.75;
+      color: #cbd5e1;
+      font-weight: 400;
+    }
+
+    /* ─── Next Button ───────────────────────────────────────── */
+    .next-btn-wrap {
+      display: none;
+      margin-top: 22px;
+    }
+
+    .next-btn-wrap.visible {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .next-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 13px 28px;
+      background: linear-gradient(135deg, var(--blue) 0%, var(--cyan) 100%);
+      border: none;
+      border-radius: var(--radius-btn);
+      color: #0d1117;
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all var(--transition);
+      letter-spacing: 0.3px;
+      box-shadow: 0 4px 20px rgba(0,229,255,0.25);
+    }
+
+    .next-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0,229,255,0.35);
+    }
+
+    .next-btn:active {
+      transform: translateY(0);
+    }
+
+    .next-btn-arrow {
+      font-size: 16px;
+      transition: transform var(--transition);
+    }
+
+    .next-btn:hover .next-btn-arrow {
+      transform: translateX(3px);
+    }
+
+    /* ─── Results Screen ────────────────────────────────────── */
+    .results-screen {
+      display: none;
+      text-align: center;
+      padding: 20px 0;
+    }
+
+    .results-screen.visible {
+      display: block;
+      animation: fadeSlideIn 0.5s ease forwards;
+    }
+
+    .results-trophy {
+      font-size: 64px;
+      margin-bottom: 16px;
+      display: block;
+      filter: drop-shadow(0 0 20px rgba(255,200,0,0.3));
+    }
+
+    .results-headline {
+      font-family: var(--font-display);
+      font-size: clamp(24px, 4vw, 38px);
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, var(--text-primary) 40%, var(--cyan));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .results-sub {
+      font-size: 15px;
+      color: var(--text-secondary);
+      margin-bottom: 36px;
+    }
+
+    .results-score-ring {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 36px;
+    }
+
+    .results-score-ring svg {
+      transform: rotate(-90deg);
+    }
+
+    .ring-track { fill: none; stroke: rgba(255,255,255,0.06); stroke-width: 10; }
+    .ring-fill  { fill: none; stroke-width: 10; stroke-linecap: round;
+                  stroke: url(#scoreGradient);
+                  transition: stroke-dashoffset 1s cubic-bezier(0.4,0,0.2,1); }
+
+    .ring-label {
+      position: absolute;
+      text-align: center;
+    }
+
+    .ring-score {
+      font-family: var(--font-display);
+      font-size: 42px;
+      font-weight: 800;
+      color: var(--text-primary);
+      display: block;
+      line-height: 1;
+    }
+
+    .ring-total {
+      font-size: 13px;
+      color: var(--text-secondary);
+      display: block;
+      margin-top: 4px;
+    }
+
+    .results-stats {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 36px;
+      flex-wrap: wrap;
+    }
+
+    .stat-chip {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      padding: 14px 24px;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      min-width: 100px;
+    }
+
+    .stat-chip-val {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .stat-chip-lbl {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-weight: 600;
+    }
+
+    .correct-count { color: var(--green); }
+    .wrong-count   { color: var(--red); }
+    .pct-count     { color: var(--cyan); }
+
+    .restart-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 32px;
+      background: linear-gradient(135deg, var(--purple) 0%, var(--blue) 100%);
+      border: none;
+      border-radius: var(--radius-btn);
+      color: #fff;
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all var(--transition);
+      letter-spacing: 0.3px;
+      box-shadow: 0 4px 20px rgba(167,139,250,0.25);
+    }
+
+    .restart-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(167,139,250,0.35);
+    }
+
+    /* ─── Footer ────────────────────────────────────────────── */
+    .footer {
+      margin-top: 40px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .footer-inner {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 22px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: var(--radius-pill);
+    }
+
+    .footer-icon {
+      font-size: 14px;
+    }
+
+    .footer-text {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-muted);
+      letter-spacing: 0.3px;
+    }
+
+    .footer-text strong {
+      color: var(--purple);
+      font-weight: 600;
+    }
+
+    /* ─── Responsive ────────────────────────────────────────── */
+    @media (max-width: 600px) {
+      .quiz-card { padding: 24px 20px; }
+      .progress-block { padding: 16px 18px; gap: 14px; }
+      .progress-counter { font-size: 18px; }
+      .option-btn { padding: 14px 16px; font-size: 14px; }
+      .results-stats { gap: 10px; }
+    }
+
+    /* ─── Reduced Motion ────────────────────────────────────── */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.1ms !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Blobs -->
+  <div class="bg-blob blob-1" aria-hidden="true"></div>
+  <div class="bg-blob blob-2" aria-hidden="true"></div>
+  <div class="bg-blob blob-3" aria-hidden="true"></div>
+
+  <!-- ── Quiz Wrapper ─────────────────────────────────────── -->
+  <div class="quiz-wrapper">
+
+    <!-- Header -->
+    <header class="header-block">
+      <div class="chapter-eyebrow" role="status">Physics — 6th Scientific Grade</div>
+      <h1 class="quiz-title">Chapter 1: Capacitors</h1>
+      <p class="quiz-subtitle">Al-Mutamayizeen Schools &nbsp;·&nbsp; Iraqi Curriculum &nbsp;·&nbsp; Diagnostic Assessment</p>
+    </header>
+
+    <!-- Progress Block -->
+    <div class="progress-block" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="20" id="progressBlock">
+      <div class="progress-info">
+        <span class="progress-label">Question</span>
+        <span class="progress-counter" id="progressCounter">1 <span>/ 20</span></span>
+      </div>
+      <div class="progress-bar-track">
+        <div class="progress-bar-fill" id="progressBar"></div>
+      </div>
+      <div class="score-pill">
+        <span class="score-pill-label">Score</span>
+        <span class="score-pill-value" id="scoreCounter">0</span>
+      </div>
+    </div>
+
+    <!-- Quiz Card -->
+    <div class="quiz-card" id="quizCard" role="main">
+
+      <!-- Active Question View -->
+      <div id="questionView">
+        <span class="part-badge" id="partBadge">Part 1 — Concept &amp; Theory</span>
+        <p class="question-number" id="qNumber">Question 01 of 20</p>
+        <p class="question-text" id="questionText">Loading…</p>
+
+        <div class="options-grid" id="optionsGrid" role="group" aria-label="Answer choices"></div>
+
+        <!-- Explanation Box -->
+        <div class="explanation-box" id="explanationBox" role="alert" aria-live="polite">
+          <div class="explanation-header">
+            <div class="explanation-icon">💡</div>
+            <span class="explanation-label">Explanation</span>
+          </div>
+          <p class="explanation-text" id="explanationText"></p>
+        </div>
+
+        <!-- Next Button -->
+        <div class="next-btn-wrap" id="nextBtnWrap">
+          <button class="next-btn" id="nextBtn" aria-label="Go to next question">
+            Next Question
+            <span class="next-btn-arrow">→</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Results Screen -->
+      <div class="results-screen" id="resultsScreen" role="region" aria-label="Quiz results">
+        <span class="results-trophy" role="img" aria-label="trophy">🏆</span>
+        <h2 class="results-headline" id="resultsHeadline">Quiz Complete!</h2>
+        <p class="results-sub" id="resultsSub">Here's how you performed on Chapter 1: Capacitors</p>
+
+        <!-- SVG Score Ring -->
+        <div class="results-score-ring">
+          <svg width="160" height="160" viewBox="0 0 160 160" aria-hidden="true">
+            <defs>
+              <linearGradient id="scoreGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%"   stop-color="#3b82f6" />
+                <stop offset="50%"  stop-color="#00e5ff" />
+                <stop offset="100%" stop-color="#22d3a5" />
+              </linearGradient>
+            </defs>
+            <circle class="ring-track" cx="80" cy="80" r="65" />
+            <circle class="ring-fill"  cx="80" cy="80" r="65" id="ringFill"
+              stroke-dasharray="408.41" stroke-dashoffset="408.41" />
+          </svg>
+          <div class="ring-label">
+            <span class="ring-score" id="ringScore">0</span>
+            <span class="ring-total">out of 20</span>
+          </div>
+        </div>
+
+        <div class="results-stats">
+          <div class="stat-chip">
+            <span class="stat-chip-val correct-count" id="statCorrect">0</span>
+            <span class="stat-chip-lbl">Correct</span>
+          </div>
+          <div class="stat-chip">
+            <span class="stat-chip-val wrong-count" id="statWrong">0</span>
+            <span class="stat-chip-lbl">Incorrect</span>
+          </div>
+          <div class="stat-chip">
+            <span class="stat-chip-val pct-count" id="statPct">0%</span>
+            <span class="stat-chip-lbl">Accuracy</span>
+          </div>
+        </div>
+
+        <button class="restart-btn" id="restartBtn" aria-label="Restart the quiz">
+          ↺ &nbsp; Restart Quiz
+        </button>
+      </div>
+
+    </div><!-- /.quiz-card -->
+
+  </div><!-- /.quiz-wrapper -->
+
+  <!-- Footer -->
+  <footer class="footer" role="contentinfo">
+    <div class="footer-inner">
+      <span class="footer-icon">✦</span>
+      <span class="footer-text">Designed &amp; Developed for <strong>Master Walid Khalid Al-Fatlawi</strong></span>
+      <span class="footer-icon">✦</span>
+    </div>
+  </footer>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       JavaScript — Quiz Engine
+  ════════════════════════════════════════════════════════ -->
+  <script>
+    /* ──────────────────────────────────────────────────────
+       1. QUESTION DATABASE (JSON)
+    ─────────────────────────────────────────────────────── */
+    const QUESTIONS = [
+      // ── Part 1: Concept & Theory ──────────────────────
+      {
+        part: "Part 1 — Concept & Theory",
+        question: "The single spherical insulated conductor is rarely used to store electrical charges practically because:",
+        options: [
+          "It converts electrical charges into magnetic fields instantly.",
+          "Adding more charges inevitably increases its potential, leading to electrical discharge into the surrounding air.",
+          "The electric field remains constant regardless of the added charges.",
+          "It can safely store an infinite amount of charges."
+        ],
+        correct: 1, // index 0-based → option B
+        explanation: "The potential V of an isolated spherical conductor is directly proportional to the charge stored on it (V = Q/C). As charge accumulates, the potential rises continuously. When the potential gradient (electric field) at the surface exceeds the dielectric strength of air (~3 MV/m), the surrounding air ionises, creating a conducting plasma through which the stored charge discharges. This self-defeating effect makes isolated spheres impractical for charge storage; a capacitor—using two closely spaced conductors—overcomes this by maintaining a near-zero net potential on the system as opposite charges accumulate on the two plates."
+      },
+      {
+        part: "Part 1 — Concept & Theory",
+        question: "The Farad (F) is the standard unit of measurement for capacitance. Based on fundamental physical relationships, which of the following is NOT equivalent to the Farad?",
+        options: [
+          "Coulomb² / Joule",
+          "Coulomb / Volt",
+          "Joule / Volt²",
+          "Coulomb × Volt²"
+        ],
+        correct: 3, // option D
+        explanation: "From C = Q/V, the Farad equals Coulomb/Volt (C/V) — confirming option B. Because energy stored is PE = ½CV², we have C = 2PE/V², giving Joule/Volt² — confirming option C. Also, since V = Q/C and PE = ½Q²/C, we get C = Q²/(2PE), so Coulomb²/Joule is also valid (option A). Option D (Coulomb × Volt²) has units of C·V², which is dimensionally equivalent to Joule·Volt — far too large and inconsistent with any standard expression for capacitance. Therefore, Coulomb × Volt² is NOT a valid equivalent unit for the Farad."
+      },
+      {
+        part: "Part 1 — Concept & Theory",
+        question: "Dielectric strength is a critical property of insulating materials. It is defined as the:",
+        options: [
+          "Minimum voltage needed to charge a capacitor to 1 Coulomb.",
+          "Maximum electric field that the material can withstand before electrical breakdown occurs.",
+          "Total amount of energy stored per unit volume.",
+          "Ratio of capacitance with a dielectric to capacitance without it (in vacuum/air)."
+        ],
+        correct: 1, // option B
+        explanation: "Dielectric strength (E_max) is formally defined as the maximum electric field intensity (in V/m or kV/mm) that an insulating material can sustain without undergoing irreversible electrical breakdown — the point at which the material becomes suddenly conducting. It is an intrinsic property of the dielectric, measured under controlled conditions. Option D describes the dielectric constant (relative permittivity, κ), not dielectric strength. Option C describes energy density, and option A conflates voltage with field strength."
+      },
+      {
+        part: "Part 1 — Concept & Theory",
+        question: "When non-polar dielectrics (like glass) are inserted between the plates of a charged capacitor, the external electric field will:",
+        options: [
+          "Minimally displace the centres of positive and negative charges, creating temporary induced dipoles.",
+          "Align the already-existing permanent dipoles opposite to the external field.",
+          "Increase the potential difference across the plates significantly.",
+          "Completely cancel out the internal electric field."
+        ],
+        correct: 0, // option A
+        explanation: "Non-polar dielectrics (e.g., glass, polystyrene) have no permanent electric dipole moments. When placed in an external electric field, the field exerts opposing forces on the positive nuclei and the electron clouds of each molecule, displacing them slightly in opposite directions. This electronic polarisation creates temporary (induced) electric dipoles aligned with the field. The resulting bound surface charges on the dielectric surfaces produce a weaker internal field that partially opposes the external field, reducing the net field and the potential difference, thereby increasing the capacitance. Option B correctly describes polar dielectrics (e.g., water), where permanent dipoles are re-oriented."
+      },
+      {
+        part: "Part 1 — Concept & Theory",
+        question: "The primary technical purpose of connecting capacitors in a series combination is to:",
+        options: [
+          "Increase the equivalent capacitance of the group.",
+          "Increase the total charge stored at a low voltage.",
+          "Allow the system to withstand a larger total potential difference that an individual capacitor cannot tolerate.",
+          "Decrease the total electric field strength to absolute zero."
+        ],
+        correct: 2, // option C
+        explanation: "When capacitors are connected in series, the total applied voltage V_total is shared across each capacitor: V_total = V₁ + V₂ + V₃ + … This means the group can collectively withstand a potential difference far greater than any single capacitor's voltage rating. This is the primary practical motivation. In contrast, series connection decreases (not increases) equivalent capacitance (1/C_eq = 1/C₁ + 1/C₂ + …), so option A is incorrect. The total charge on series capacitors equals the charge on a single capacitor (all carry the same Q), so option B is also incorrect."
+      },
+
+      // ── Part 2: Application of Physical Laws ──────────
+      {
+        part: "Part 2 — Application of Physical Laws",
+        question: "A parallel-plate capacitor has a capacitance of C. If the surface area of both plates is doubled and the distance between them is halved, the new capacitance becomes:",
+        options: ["C", "2C", "4C", "0.25C"],
+        correct: 2, // option C
+        explanation: "The capacitance of a parallel-plate capacitor is C = ε₀κA/d. If the area A is doubled (A → 2A) and the separation d is halved (d → d/2), the new capacitance becomes: C' = ε₀κ(2A)/(d/2) = ε₀κ · (2A · 2/d) = 4(ε₀κA/d) = 4C. Doubling A doubles C; halving d doubles C again — the two effects multiply, giving a factor of 4. Therefore, the new capacitance is 4C."
+      },
+      {
+        part: "Part 2 — Application of Physical Laws",
+        question: "If the potential difference between the plates of a capacitor with constant capacitance is reduced to half its original value, the stored electrical energy (PE) becomes:",
+        options: [
+          "Half its original value.",
+          "One-fourth (0.25) of its original value.",
+          "Double its original value.",
+          "Unchanged."
+        ],
+        correct: 1, // option B
+        explanation: "The electrical energy stored in a capacitor is PE = ½CV². Since C is constant, PE is proportional to V². If V is halved (V → V/2), the new energy is: PE' = ½C(V/2)² = ½C · V²/4 = (1/4) · ½CV² = PE/4. The energy reduces to one-quarter (0.25) of its original value. This quadratic dependence on voltage distinguishes energy from charge (which varies linearly with V for constant C)."
+      },
+      {
+        part: "Part 2 — Application of Physical Laws",
+        question: "A parallel-plate capacitor with air as an insulator has a capacitance of 40 µF. When a specific dielectric material is inserted between its plates, its capacitance increases by 70 µF. The dielectric constant (κ) of this material is:",
+        options: ["1.75", "0.57", "2.75", "1.4"],
+        correct: 2, // option C
+        explanation: "The new capacitance after inserting the dielectric is: C_new = C_air + ΔC = 40 + 70 = 110 µF. The dielectric constant κ is defined as: κ = C_new / C_air = 110 / 40 = 2.75. Note that κ must always be ≥ 1 (a dielectric always increases capacitance relative to vacuum/air). Option A (1.75) would correspond to a ΔC of only 30 µF, and option D (1.4) would imply ΔC = 16 µF — neither matches the given data."
+      },
+      {
+        part: "Part 2 — Application of Physical Laws",
+        question: "To obtain the minimum possible equivalent capacitance from three identical capacitors (each with capacitance C), you must connect them:",
+        options: [
+          "All in parallel.",
+          "All in series.",
+          "Two in parallel, and the combination in series with the third.",
+          "Two in series, and the combination in parallel with the third."
+        ],
+        correct: 1, // option B
+        explanation: "For n identical capacitors each of capacitance C: (a) All in parallel: C_eq = nC = 3C (maximum). (b) All in series: 1/C_eq = n/C ⟹ C_eq = C/n = C/3 (minimum). (c) Two in parallel then series with third: C_eq = (2C × C)/(2C + C) = 2C/3. (d) Two in series then parallel with third: C_eq = C/2 + C = 3C/2. Clearly, the all-series configuration gives C/3 — the smallest possible equivalent capacitance from three identical capacitors."
+      },
+      {
+        part: "Part 2 — Application of Physical Laws",
+        question: "A 2 µF capacitor is charged by a 5000 V potential difference. The electrical energy stored in its electric field is:",
+        options: ["10 J", "25 J", "50 J", "100 J"],
+        correct: 1, // option B
+        explanation: "Using PE = ½CV²: PE = ½ × (2 × 10⁻⁶ F) × (5000 V)² = ½ × 2 × 10⁻⁶ × 25 × 10⁶ = ½ × 50 = 25 J. The answer is 25 J. Option A (10 J) would result if V were used without squaring it correctly. Option C (50 J) forgets the factor of ½. Always apply the ½ coefficient in the energy formula; it arises because charging a capacitor from 0 to V is not done at constant voltage — the average voltage during charging is V/2."
+      },
+
+      // ── Part 3: Analysis of Electrical Systems ────────
+      {
+        part: "Part 3 — Analysis of Electrical Systems",
+        question: "A charged capacitor is disconnected from the voltage source. If a dielectric slab (κ > 1) is inserted between its plates, which of the following quantities remains constant?",
+        options: [
+          "Electric potential difference",
+          "Capacitance",
+          "Stored electric charge",
+          "Stored electric energy"
+        ],
+        correct: 2, // option C
+        explanation: "When the capacitor is disconnected from its source, the charge Q on the plates is isolated — there is no path for charge to flow, so Q remains constant (conservation of charge). Inserting a dielectric increases capacitance to C' = κC. Since Q is fixed and V = Q/C, the voltage drops to V' = V/κ. Since PE = Q²/(2C), the energy decreases to PE' = PE/κ (the energy 'lost' is transferred to the mechanical work done bringing the dielectric in). Therefore, only charge Q is conserved."
+      },
+      {
+        part: "Part 3 — Analysis of Electrical Systems",
+        question: "A parallel-plate capacitor remains continuously connected to a constant voltage battery. If the plates are pulled slightly further apart, what happens to the electric field (E) and the stored charge (Q)?",
+        options: [
+          "Both E and Q increase.",
+          "Both E and Q decrease.",
+          "E remains constant, Q decreases.",
+          "E decreases, Q remains constant."
+        ],
+        correct: 1, // option B
+        explanation: "With a constant voltage V maintained by the battery: The electric field between plates is E = V/d. Increasing d decreases E (option B component 1 ✓). Capacitance is C = ε₀A/d; increasing d decreases C. Since the voltage V is constant and Q = CV, decreasing C means Q decreases too (option B component 2 ✓). Option C is wrong because E = V/d, not V alone. Option D is wrong because Q follows C when V is constant. Both E and Q decrease."
+      },
+      {
+        part: "Part 3 — Analysis of Electrical Systems",
+        question: "In a direct current (DC) circuit, a capacitor acts as an open switch after being fully charged because:",
+        options: [
+          "The internal resistance of the battery becomes infinite.",
+          "The potential difference across the capacitor equals the EMF of the battery, making the net current zero.",
+          "The capacitor discharges its energy instantly into the resistor.",
+          "The accumulated charges continuously leak into the surrounding air."
+        ],
+        correct: 1, // option B
+        explanation: "As a capacitor charges, its plate voltage builds up, opposing the battery's EMF. At full charge, V_capacitor = V_battery (assuming an ideal battery). The net driving voltage around the circuit becomes V_battery − V_capacitor = 0, so by Ohm's Law, the current I = 0. With no current flowing, the capacitor effectively acts as an open (broken) switch in a DC steady-state circuit. It blocks DC because, unlike a resistor, charge cannot physically cross the insulating gap — current only flowed transiently during the charging process."
+      },
+      {
+        part: "Part 3 — Analysis of Electrical Systems",
+        question: "A charged capacitor (C₁) is entirely disconnected from its voltage source. If an uncharged capacitor (C₂) is then connected in parallel to it, the potential difference across C₁ will:",
+        options: [
+          "Increase, because the total stored charge in the system increases.",
+          "Decrease, because the equivalent capacitance increases while the total charge remains constant.",
+          "Remain constant, because capacitors in parallel always maintain their initial voltage.",
+          "Drop to zero immediately."
+        ],
+        correct: 1, // option B
+        explanation: "When C₂ is connected in parallel to the isolated (already disconnected) C₁, the total charge Q = C₁V₁ is conserved (no external source is present). However, the equivalent capacitance of the parallel combination increases to C_eq = C₁ + C₂. The new shared voltage is: V' = Q/C_eq = C₁V₁/(C₁ + C₂) < V₁. The voltage decreases because the same total charge is now distributed across a larger capacitance. This is not the same as capacitors connected in parallel to an active source (where voltage is fixed by the source)."
+      },
+      {
+        part: "Part 3 — Analysis of Electrical Systems",
+        question: "Two identical capacitors are fully charged to a charge Q each. They are disconnected, then connected in parallel so that the plates with opposite (different) charge signs are joined together. The net final charge on each capacitor is:",
+        options: ["Q", "2Q", "Zero", "0.5Q"],
+        correct: 2, // option C
+        explanation: "When two capacitors each carrying charge +Q and −Q (on the positive and negative plates respectively) are connected plate-to-plate with opposite polarities (i.e. the +Q plate of one is connected to the +Q plate of the other, and the −Q plate to the −Q plate — forming anti-parallel), the total net charge is: Q_total = +Q + (−Q) = 0 on one node, and −Q + (+Q) = 0 on the other. Since Q_total = 0 and V = Q_total/C_eq = 0, both capacitors end up fully discharged. The charges cancel by mutual neutralisation. Final charge on each = Zero."
+      },
+
+      // ── Part 4: Synthesis & Evaluation ───────────────
+      {
+        part: "Part 4 — Synthesis & Evaluation",
+        question: "Two capacitors (C₁ = 4 µF, C₂ = 8 µF) are connected in parallel across a 12 V battery, then disconnected. A dielectric slab is inserted into C₁, causing the total potential difference to drop to 6 V. The dielectric constant (κ) of the slab is:",
+        options: ["2", "3", "4", "5"],
+        correct: 2, // option C
+        explanation: "Step 1 — Total charge after charging at 12 V: Q_total = (C₁ + C₂) × 12 = (4 + 8) × 12 = 144 µC. Step 2 — After inserting the dielectric, C₁ becomes κC₁ = 4κ µF, while C₂ remains 8 µF. Since the system is isolated (disconnected), Q_total = 144 µC. Step 3 — New voltage: V' = Q_total / (κ × 4 + 8) = 6 V. Therefore: 144 = 6(4κ + 8) → 24 = 4κ + 8 → 4κ = 16 → κ = 4. The dielectric constant is 4."
+      },
+      {
+        part: "Part 4 — Synthesis & Evaluation",
+        question: "If 6 capacitors of equal capacitance (C) are connected in parallel, their equivalent capacitance is 9 µF. If the same 6 capacitors are reconnected in series, their new equivalent capacitance will be:",
+        options: ["54 µF", "1.5 µF", "0.25 µF", "9 µF"],
+        correct: 2, // option C
+        explanation: "Step 1 — Find individual capacitance C: In parallel, C_eq = nC = 6C = 9 µF → C = 9/6 = 1.5 µF. Step 2 — All 6 in series: 1/C_series = 6/C = 6/1.5 = 4 µF⁻¹ → C_series = 1/4 = 0.25 µF. The answer is 0.25 µF. The ratio between parallel and series equivalent capacitance for n identical capacitors is always n²: C_parallel/C_series = n² = 36 → C_series = 9/36 = 0.25 µF ✓."
+      },
+      {
+        part: "Part 4 — Synthesis & Evaluation",
+        question: "In a DC circuit, a 12 V battery is connected in series with a resistor (R = 20 Ω) and a lamp (r = 10 Ω). A 5 µF capacitor is connected in parallel with the lamp. The potential difference across the capacitor when fully charged is:",
+        options: ["12 V", "8 V", "4 V", "2 V"],
+        correct: 2, // option C
+        explanation: "When the capacitor is fully charged, no steady-state current flows through it (it acts as an open circuit). All current flows through the main series loop: R and r in series with the battery. Current I = V / (R + r) = 12 / (20 + 10) = 12/30 = 0.4 A. The voltage across the lamp r (and hence across the parallel capacitor) is: V_cap = I × r = 0.4 × 10 = 4 V. The capacitor charges to the same voltage as the element it is connected across in parallel — in this case, the lamp (10 Ω), giving 4 V."
+      },
+      {
+        part: "Part 4 — Synthesis & Evaluation",
+        question: "Using the same components (12 V battery, R = 20 Ω, r = 10 Ω), if the 5 µF capacitor is connected in series with the lamp (not in parallel), the potential difference across the capacitor when fully charged will be:",
+        options: ["12 V", "8 V", "4 V", "Zero"],
+        correct: 0, // option A
+        explanation: "When the capacitor is placed in series with the lamp and resistor, it will eventually fully charge and block all DC current. At steady-state (I = 0), there is no current through the resistor R or the lamp r, so no voltage drop occurs across either of them (V_R = IR = 0, V_r = Ir = 0). By Kirchhoff's Voltage Law, the entire 12 V of the battery must appear across the only remaining element that supports a voltage — the capacitor. Therefore, V_capacitor = 12 V. This is a key principle: a fully-charged series capacitor takes on the full EMF of the source in a DC circuit."
+      },
+      {
+        part: "Part 4 — Synthesis & Evaluation",
+        question: "Two capacitors (C₁ = 6 µF, C₂ = 3 µF) are connected in series, and this combination is connected in parallel with C₃ = 4 µF. The total potential difference applied is 20 V. The total stored charge (Q_total) of the group is:",
+        options: ["240 µC", "120 µC", "180 µC", "60 µC"],
+        correct: 1, // option B
+        explanation: "Step 1 — Equivalent capacitance of C₁ and C₂ in series: 1/C₁₂ = 1/6 + 1/3 = 1/6 + 2/6 = 3/6 = 1/2 → C₁₂ = 2 µF. Step 2 — C₁₂ in parallel with C₃: C_eq = 2 + 4 = 6 µF. Step 3 — Total charge: Q_total = C_eq × V = 6 × 20 = 120 µC. The answer is 120 µC. As a check: Q on C₃ alone = 4 × 20 = 80 µC; Q on the series branch = 2 × 20 = 40 µC; total = 80 + 40 = 120 µC ✓."
+      }
+    ];
+
+    /* ──────────────────────────────────────────────────────
+       2. STATE
+    ─────────────────────────────────────────────────────── */
+    let currentIndex = 0;
+    let score        = 0;
+    let answered     = false;
+
+    /* ──────────────────────────────────────────────────────
+       3. DOM REFERENCES
+    ─────────────────────────────────────────────────────── */
+    const progressBar     = document.getElementById('progressBar');
+    const progressCounter = document.getElementById('progressCounter');
+    const progressBlock   = document.getElementById('progressBlock');
+    const scoreCounter    = document.getElementById('scoreCounter');
+    const partBadge       = document.getElementById('partBadge');
+    const qNumber         = document.getElementById('qNumber');
+    const questionText    = document.getElementById('questionText');
+    const optionsGrid     = document.getElementById('optionsGrid');
+    const explanationBox  = document.getElementById('explanationBox');
+    const explanationText = document.getElementById('explanationText');
+    const nextBtnWrap     = document.getElementById('nextBtnWrap');
+    const nextBtn         = document.getElementById('nextBtn');
+    const questionView    = document.getElementById('questionView');
+    const resultsScreen   = document.getElementById('resultsScreen');
+    const resultsHeadline = document.getElementById('resultsHeadline');
+    const ringScore       = document.getElementById('ringScore');
+    const ringFill        = document.getElementById('ringFill');
+    const statCorrect     = document.getElementById('statCorrect');
+    const statWrong       = document.getElementById('statWrong');
+    const statPct         = document.getElementById('statPct');
+    const restartBtn      = document.getElementById('restartBtn');
+
+    /* ──────────────────────────────────────────────────────
+       4. RENDER QUESTION
+    ─────────────────────────────────────────────────────── */
+    function renderQuestion(idx) {
+      answered = false;
+      const q  = QUESTIONS[idx];
+
+      // Progress
+      const pct = Math.round((idx / QUESTIONS.length) * 100);
+      progressBar.style.width     = pct + '%';
+      progressCounter.innerHTML   = `${idx + 1} <span>/ ${QUESTIONS.length}</span>`;
+      progressBlock.setAttribute('aria-valuenow', idx + 1);
+
+      // Meta
+      partBadge.textContent = q.part;
+      qNumber.textContent   = `Question ${String(idx + 1).padStart(2,'0')} of ${QUESTIONS.length}`;
+      questionText.textContent = q.question;
+
+      // Build option buttons
+      optionsGrid.innerHTML = '';
+      const letters = ['A', 'B', 'C', 'D'];
+      q.options.forEach((opt, i) => {
+        const btn = document.createElement('button');
+        btn.className  = 'option-btn';
+        btn.innerHTML  = `
+          <span class="option-letter">${letters[i]}</span>
+          <span class="option-text">${opt}</span>
+        `;
+        btn.setAttribute('aria-label', `Option ${letters[i]}: ${opt}`);
+        btn.addEventListener('click', () => handleAnswer(i));
+        optionsGrid.appendChild(btn);
+      });
+
+      // Reset feedback elements
+      explanationBox.classList.remove('visible');
+      nextBtnWrap.classList.remove('visible');
+      explanationText.textContent = '';
+    }
+
+    /* ──────────────────────────────────────────────────────
+       5. HANDLE ANSWER SELECTION
+    ─────────────────────────────────────────────────────── */
+    function handleAnswer(selectedIdx) {
+      if (answered) return; // already answered this question
+      answered = true;
+
+      const q       = QUESTIONS[currentIndex];
+      const btns    = optionsGrid.querySelectorAll('.option-btn');
+      const correct = q.correct;
+
+      // Lock all buttons
+      btns.forEach(btn => { btn.disabled = true; });
+
+      // Apply visual states
+      btns[selectedIdx].classList.add(selectedIdx === correct ? 'correct' : 'incorrect');
+      if (selectedIdx !== correct) {
+        btns[correct].classList.add('correct');
+      }
+
+      // Update score
+      if (selectedIdx === correct) {
+        score++;
+        scoreCounter.textContent = score;
+      }
+
+      // Show explanation
+      explanationText.textContent = q.explanation;
+      explanationBox.classList.add('visible');
+
+      // Show Next button (or Show Results on last question)
+      nextBtnWrap.classList.add('visible');
+      if (currentIndex === QUESTIONS.length - 1) {
+        nextBtn.textContent = '';
+        nextBtn.innerHTML   = 'View Results &nbsp;<span class="next-btn-arrow">→</span>';
+      }
+    }
+
+    /* ──────────────────────────────────────────────────────
+       6. ADVANCE TO NEXT QUESTION / RESULTS
+    ─────────────────────────────────────────────────────── */
+    nextBtn.addEventListener('click', () => {
+      currentIndex++;
+      if (currentIndex < QUESTIONS.length) {
+        renderQuestion(currentIndex);
+      } else {
+        showResults();
+      }
+    });
+
+    /* ──────────────────────────────────────────────────────
+       7. RESULTS SCREEN
+    ─────────────────────────────────────────────────────── */
+    function showResults() {
+      questionView.style.display = 'none';
+      resultsScreen.classList.add('visible');
+
+      const pct = Math.round((score / QUESTIONS.length) * 100);
+
+      // Headline
+      if (pct === 100) resultsHeadline.textContent = 'Perfect Score! 🌟';
+      else if (pct >= 80) resultsHeadline.textContent = 'Excellent Work!';
+      else if (pct >= 60) resultsHeadline.textContent = 'Good Effort!';
+      else                resultsHeadline.textContent = 'Keep Studying!';
+
+      // Stats
+      ringScore.textContent   = score;
+      statCorrect.textContent = score;
+      statWrong.textContent   = QUESTIONS.length - score;
+      statPct.textContent     = pct + '%';
+
+      // SVG ring animation
+      const circumference = 2 * Math.PI * 65; // ≈ 408.41
+      const dashOffset    = circumference * (1 - score / QUESTIONS.length);
+      // Small delay so the animation is visible
+      setTimeout(() => {
+        ringFill.style.strokeDashoffset = dashOffset;
+      }, 100);
+
+      // Update progress bar to 100%
+      progressBar.style.width = '100%';
+      progressCounter.innerHTML = `${QUESTIONS.length} <span>/ ${QUESTIONS.length}</span>`;
+    }
+
+    /* ──────────────────────────────────────────────────────
+       8. RESTART
+    ─────────────────────────────────────────────────────── */
+    restartBtn.addEventListener('click', () => {
+      currentIndex = 0;
+      score        = 0;
+      scoreCounter.textContent = 0;
+
+      resultsScreen.classList.remove('visible');
+      questionView.style.display = '';
+
+      // Reset ring
+      ringFill.style.strokeDashoffset = '408.41';
+
+      renderQuestion(0);
+    });
+
+    /* ──────────────────────────────────────────────────────
+       9. INIT
+    ─────────────────────────────────────────────────────── */
+    renderQuestion(0);
+  </script>
+</body>
+</html>
