@@ -1,0 +1,1781 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Capacitors Diagnostic Quiz - Chapter 1</title>
+  
+  <!-- Premium Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* ----------------------------------
+       1. Custom CSS Variables & Themes
+       ---------------------------------- */
+    :root {
+      --bg-dark: #0a0e17;
+      --bg-gradient-start: #0f172a;
+      --bg-gradient-end: #030712;
+      
+      --card-bg: rgba(17, 24, 39, 0.7);
+      --card-border: rgba(148, 163, 184, 0.08);
+      --card-border-hover: rgba(148, 163, 184, 0.2);
+      
+      --neon-cyan: #38bdf8;
+      --neon-purple: #818cf8;
+      --neon-blue: #6366f1;
+      
+      --text-glow-cyan: 0 0 8px rgba(56, 189, 248, 0.35);
+      --text-glow-purple: 0 0 8px rgba(129, 140, 248, 0.35);
+      
+      --text-primary: #f8fafc;
+      --text-secondary: #cbd5e1;
+      --text-muted: #64748b;
+      
+      --correct-green: #34d399;
+      --correct-glow: 0 0 15px rgba(52, 211, 153, 0.3);
+      
+      --incorrect-red: #f87171;
+      --incorrect-glow: 0 0 15px rgba(248, 113, 113, 0.3);
+
+      --font-display: 'Inter', sans-serif;
+      --font-serif: 'Playfair Display', Georgia, serif;
+      --font-sans: 'Inter', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      
+      --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* ----------------------------------
+       2. Global Styles & Reset
+       ---------------------------------- */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      background-image: radial-gradient(circle at 50% 10%, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Floating Abstract Neon Background Blobs */
+    .blob-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      overflow: hidden;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(200px);
+      opacity: 0.07;
+      animation: float-around 25s infinite alternate ease-in-out;
+    }
+
+    .blob-1 {
+      width: 450px;
+      height: 450px;
+      background: var(--neon-cyan);
+      top: -10%;
+      left: -5%;
+      animation-duration: 22s;
+    }
+
+    .blob-2 {
+      width: 550px;
+      height: 550px;
+      background: var(--neon-purple);
+      bottom: -15%;
+      right: -5%;
+      animation-duration: 28s;
+    }
+
+    @keyframes float-around {
+      0% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(8%, 15%) scale(1.15); }
+      100% { transform: translate(-5%, -10%) scale(0.9); }
+    }
+
+    main {
+      position: relative;
+      z-index: 10;
+      flex-grow: 1;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    /* ----------------------------------
+       3. Header UI / Layout
+       ---------------------------------- */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 1.25rem;
+      background: rgba(10, 16, 26, 0.6);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+
+    .header-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .capacitor-icon {
+      width: 32px;
+      height: 32px;
+      stroke: var(--neon-cyan);
+      filter: drop-shadow(var(--text-glow-cyan));
+    }
+
+    .header-title-wrapper h1 {
+      font-family: var(--font-serif);
+      font-size: 1.45rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: var(--text-primary);
+    }
+
+    .header-title-wrapper p {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-top: 0.15rem;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    /* Premium Toggle Buttons */
+    .utility-badge {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      padding: 0.35rem 0.6rem;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--card-border);
+      border-radius: 6px;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      cursor: pointer;
+      user-select: none;
+      transition: var(--transition-smooth);
+    }
+
+    .utility-badge:hover {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.2);
+      color: var(--text-primary);
+    }
+
+    .utility-badge.active {
+      border-color: var(--neon-cyan);
+      color: var(--neon-cyan);
+      box-shadow: 0 0 10px rgba(6, 182, 212, 0.2);
+    }
+
+    /* ----------------------------------
+       4. Bento Grid Layout
+       ---------------------------------- */
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 1.25rem;
+    }
+
+    .bento-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      padding: 1.25rem;
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+      transition: var(--transition-smooth);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Glowing accent line for primary bento cards */
+    .bento-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--card-border), transparent);
+    }
+
+    /* Highlighted bento card style */
+    .bento-card-interactive {
+      box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5), 0 0 20px rgba(99, 102, 241, 0.08);
+      border-color: rgba(99, 102, 241, 0.25);
+    }
+
+    /* Grid positions */
+    .col-left {
+      grid-column: span 3;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .col-center {
+      grid-column: span 6;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .col-right {
+      grid-column: span 3;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    @media (max-width: 1024px) {
+      .col-left { grid-column: span 4; }
+      .col-center { grid-column: span 8; }
+      .col-right { grid-column: span 12; }
+    }
+
+    @media (max-width: 768px) {
+      .col-left { grid-column: span 12; }
+      .col-center { grid-column: span 12; }
+      .bento-grid { gap: 1rem; }
+    }
+
+    /* Card Details & Helper Styles */
+    .card-title {
+      font-family: var(--font-display);
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--text-primary);
+      margin-bottom: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      padding-bottom: 0.6rem;
+    }
+
+    .card-title svg {
+      width: 15px;
+      height: 15px;
+      color: var(--neon-cyan);
+    }
+
+    /* ----------------------------------
+       5. Formula / Constants Drawer (Left Bento)
+       ---------------------------------- */
+    .formula-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.45rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+      font-size: 0.8rem;
+    }
+
+    .formula-row:last-child {
+      border: none;
+    }
+
+    .formula-lbl {
+      color: var(--text-secondary);
+    }
+
+    .formula-val {
+      font-family: var(--font-mono);
+      color: var(--neon-cyan);
+      font-weight: 500;
+      background: rgba(6, 182, 212, 0.1);
+      padding: 0.1rem 0.4rem;
+      border-radius: 4px;
+    }
+
+    .constants-box {
+      margin-top: 0.5rem;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+      padding: 0.5rem;
+      font-size: 0.7rem;
+    }
+
+    /* ----------------------------------
+       6. Live Quiz Center Bento Cards
+       ---------------------------------- */
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+      font-size: 0.8rem;
+    }
+
+    .progress-count {
+      font-family: var(--font-mono);
+      color: var(--neon-cyan);
+      font-weight: 600;
+    }
+
+    .timer-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-family: var(--font-mono);
+      color: var(--neon-purple);
+      background: rgba(168, 85, 247, 0.08);
+      border: 1px solid rgba(168, 85, 247, 0.15);
+      padding: 0.25rem 0.5rem;
+      border-radius: 6px;
+      transition: var(--transition-smooth);
+    }
+
+    .timer-badge.danger {
+      color: var(--incorrect-red);
+      background: rgba(239, 68, 68, 0.08);
+      border-color: rgba(239, 68, 68, 0.2);
+      animation: pulse-danger 1s infinite alternate;
+    }
+
+    @keyframes pulse-danger {
+      0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+      100% { transform: scale(1.03); box-shadow: 0 0 10px 2px rgba(239, 68, 68, 0.2); }
+    }
+
+    .progress-bar-container {
+      width: 100%;
+      height: 4px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 20px;
+      overflow: hidden;
+      margin-bottom: 1rem;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 5%;
+      background: linear-gradient(90deg, var(--neon-cyan), var(--neon-purple));
+      border-radius: 20px;
+      transition: width 0.4s ease-out;
+    }
+
+    /* The Question Core Display */
+    .question-box {
+      margin-top: 0.5rem;
+    }
+
+    .question-text {
+      font-family: var(--font-serif);
+      font-size: 1.25rem;
+      line-height: 1.6;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 1.5rem;
+    }
+
+    /* Stylish Options List */
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .option-btn {
+      width: 100%;
+      text-align: left;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 0.9rem 1.1rem;
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      transition: var(--transition-smooth);
+      position: relative;
+    }
+
+    .option-btn:hover:not(:disabled) {
+      background: rgba(255, 255, 255, 0.04);
+      border-color: var(--card-border-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    }
+
+    .option-letter {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 0.8rem;
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition-smooth);
+    }
+
+    .option-btn:hover:not(:disabled) .option-letter {
+      border-color: rgba(255,255,255,0.3);
+      background: rgba(255,255,255,0.1);
+    }
+
+    /* Lock States during answer validation */
+    .option-btn:disabled {
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+
+    /* Option states feedback styles */
+    .option-btn.correct-choice {
+      border-color: var(--correct-green) !important;
+      background: rgba(16, 185, 129, 0.08) !important;
+      box-shadow: var(--correct-glow) !important;
+      opacity: 1 !important;
+    }
+
+    .option-btn.correct-choice .option-letter {
+      background: var(--correct-green) !important;
+      border-color: var(--correct-green) !important;
+      color: #000 !important;
+    }
+
+    .option-btn.incorrect-choice {
+      border-color: var(--incorrect-red) !important;
+      background: rgba(239, 68, 68, 0.08) !important;
+      box-shadow: var(--incorrect-glow) !important;
+      opacity: 1 !important;
+    }
+
+    .option-btn.incorrect-choice .option-letter {
+      background: var(--incorrect-red) !important;
+      border-color: var(--incorrect-red) !important;
+      color: #fff !important;
+    }
+
+    /* ----------------------------------
+       7. Feedback & Explanation UI
+       ---------------------------------- */
+    .feedback-explanation {
+      margin-top: 1.25rem;
+      border-radius: 12px;
+      padding: 1.1rem;
+      background: rgba(0,0,0,0.3);
+      border: 1px dashed rgba(255,255,255,0.08);
+      display: none;
+      animation: fade-slide-up 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes fade-slide-up {
+      0% { opacity: 0; transform: translateY(10px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .feedback-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      margin-bottom: 0.6rem;
+    }
+
+    .feedback-badge.correct {
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--correct-green);
+    }
+
+    .feedback-badge.incorrect {
+      background: rgba(239, 68, 68, 0.15);
+      color: var(--incorrect-red);
+    }
+
+    .explanation-text {
+      font-size: 0.85rem;
+      line-height: 1.5;
+      color: var(--text-secondary);
+    }
+
+    /* Navigation Action Row */
+    .action-row {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 1.25rem;
+    }
+
+    .primary-btn {
+      background: linear-gradient(135deg, var(--neon-cyan), var(--neon-blue));
+      border: none;
+      border-radius: 10px;
+      padding: 0.75rem 1.5rem;
+      color: #000;
+      font-weight: 700;
+      font-family: var(--font-display);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: var(--transition-smooth);
+      box-shadow: 0 4px 15px rgba(6, 182, 212, 0.3);
+    }
+
+    .primary-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(6, 182, 212, 0.5);
+    }
+
+    .primary-btn svg {
+      width: 16px;
+      height: 16px;
+      stroke-width: 2.5px;
+    }
+
+    /* ----------------------------------
+       8. Progress Matrix Side Panel (Right Bento)
+       ---------------------------------- */
+    .status-panel-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0.45rem;
+      margin-bottom: 1rem;
+    }
+
+    .matrix-dot {
+      aspect-ratio: 1;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--card-border);
+      font-size: 0.75rem;
+      font-family: var(--font-mono);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--text-muted);
+      transition: var(--transition-smooth);
+    }
+
+    .matrix-dot:hover {
+      border-color: var(--card-border-hover);
+      color: var(--text-primary);
+    }
+
+    .matrix-dot.active-dot {
+      border-color: var(--neon-cyan);
+      box-shadow: var(--text-glow-cyan);
+      color: var(--neon-cyan);
+    }
+
+    .matrix-dot.correct-dot {
+      background: rgba(16, 185, 129, 0.1) !important;
+      border-color: var(--correct-green) !important;
+      color: var(--correct-green) !important;
+    }
+
+    .matrix-dot.incorrect-dot {
+      background: rgba(239, 68, 68, 0.1) !important;
+      border-color: var(--incorrect-red) !important;
+      color: var(--incorrect-red) !important;
+    }
+
+    .stats-scoreboard {
+      background: rgba(0, 0, 0, 0.15);
+      border-radius: 10px;
+      padding: 0.75rem;
+      font-size: 0.8rem;
+    }
+
+    .scoreboard-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.4rem;
+    }
+
+    .scoreboard-row:last-child {
+      margin: 0;
+    }
+
+    /* ----------------------------------
+       9. Interactive Calculator Widget (Utility)
+       ---------------------------------- */
+    .calc-input-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .calc-field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .calc-field label {
+      font-size: 0.65rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .calc-field input {
+      background: rgba(0,0,0,0.3);
+      border: 1px solid var(--card-border);
+      color: #fff;
+      padding: 0.35rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-family: var(--font-mono);
+      width: 100%;
+    }
+
+    .calc-field input:focus {
+      outline: none;
+      border-color: var(--neon-purple);
+    }
+
+    .calc-btn {
+      grid-column: span 2;
+      background: rgba(168, 85, 247, 0.15);
+      border: 1px solid rgba(168, 85, 247, 0.25);
+      color: var(--neon-purple);
+      border-radius: 6px;
+      font-size: 0.75rem;
+      padding: 0.35rem;
+      cursor: pointer;
+      font-family: var(--font-display);
+      font-weight: 700;
+      transition: var(--transition-smooth);
+    }
+
+    .calc-btn:hover {
+      background: rgba(168, 85, 247, 0.25);
+      box-shadow: var(--text-glow-purple);
+    }
+
+    .calc-result {
+      margin-top: 0.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      text-align: center;
+      padding: 0.35rem;
+      background: rgba(255,255,255,0.02);
+      border-radius: 4px;
+      color: var(--neon-cyan);
+    }
+
+    /* ----------------------------------
+       10. Review / Final Screen HUD
+       ---------------------------------- */
+    .final-screen {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 2.5rem 1.5rem;
+      animation: fade-slide-up 0.5s ease forwards;
+    }
+
+    .radial-score-container {
+      position: relative;
+      width: 130px;
+      height: 130px;
+      margin-bottom: 1.5rem;
+    }
+
+    .radial-svg {
+      transform: rotate(-90deg);
+      width: 100%;
+      height: 100%;
+    }
+
+    .radial-bg {
+      fill: none;
+      stroke: rgba(255,255,255,0.03);
+      stroke-width: 8;
+    }
+
+    .radial-bar {
+      fill: none;
+      stroke: url(#neon-gradient);
+      stroke-width: 8;
+      stroke-dasharray: 377;
+      stroke-dashoffset: 377;
+      stroke-linecap: round;
+      transition: stroke-dashoffset 1s ease-out;
+    }
+
+    .radial-percent {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 1.5rem;
+      font-family: var(--font-display);
+      font-weight: 700;
+    }
+
+    .final-badge {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--neon-cyan);
+      background: rgba(6, 182, 212, 0.1);
+      border: 1px solid var(--neon-cyan);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 0.35rem 0.75rem;
+      border-radius: 20px;
+      margin-bottom: 1rem;
+    }
+
+    .final-score-breakdown {
+      display: flex;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .score-stat {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .score-stat-val {
+      font-family: var(--font-mono);
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+
+    .score-stat-lbl {
+      font-size: 0.7rem;
+      color: var(--text-secondary);
+    }
+
+    .review-accordion-btn {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 0.6rem 1rem;
+      font-size: 0.8rem;
+      cursor: pointer;
+      color: var(--text-secondary);
+      transition: var(--transition-smooth);
+      margin-top: 1rem;
+    }
+
+    .review-accordion-btn:hover {
+      background: rgba(255,255,255,0.06);
+      color: #fff;
+    }
+
+    /* ----------------------------------
+       11. Footer / Branding Section
+       ---------------------------------- */
+    footer {
+      border-top: 1px solid rgba(255,255,255,0.04);
+      background: rgba(5, 8, 14, 0.85);
+      padding: 1rem 0;
+      text-align: center;
+      position: relative;
+      z-index: 10;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .footer-branding {
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      font-family: var(--font-display);
+      margin-bottom: 0.25rem;
+    }
+
+    .footer-sub {
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+    }
+
+    /* Interactive animations utility */
+    .bounce {
+      animation: bounce-anim 1s infinite alternate;
+    }
+
+    @keyframes bounce-anim {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-4px); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Floating Ambient Particles -->
+  <div class="blob-bg">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+  </div>
+
+  <main>
+    <!-- Header Area -->
+    <header>
+      <div class="header-logo">
+        <svg class="capacitor-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="4" y1="12" x2="9" y2="12"></line>
+          <line x1="15" y1="12" x2="20" y2="12"></line>
+          <line x1="9" y1="5" x2="9" y2="19"></line>
+          <line x1="15" y1="5" x2="15" y2="19"></line>
+        </svg>
+        <div class="header-title-wrapper">
+          <h1>Chapter 1: Capacitors</h1>
+          <p>Al-Mutamayizeen Diagnostic Placement</p>
+        </div>
+      </div>
+      
+      <!-- Interaction Settings -->
+      <div class="header-actions">
+        <div class="utility-badge" id="toggle-sfx" onclick="toggleSFX()">
+          <svg style="width:12px;height:12px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+          </svg>
+          <span id="sfx-status">Sound ON</span>
+        </div>
+        <div class="utility-badge" id="toggle-mode" onclick="toggleMode()">
+          <svg style="width:12px;height:12px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+          <span id="mode-status">Practice Mode</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Bento Grid -->
+    <div class="bento-grid">
+      
+      <!-- LEFT COLUMN: Formulas & Constants -->
+      <div class="col-left">
+        <!-- Forumla Cheat Bento -->
+        <div class="bento-card">
+          <h2 class="card-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+            </svg>
+            Capacitor Formulae
+          </h2>
+          <div class="formula-row">
+            <span class="formula-lbl">Capacitance Definition</span>
+            <span class="formula-val">C = Q / V</span>
+          </div>
+          <div class="formula-row">
+            <span class="formula-lbl">Parallel Plate Formula</span>
+            <span class="formula-val">C = ε₀ A / d</span>
+          </div>
+          <div class="formula-row">
+            <span class="formula-lbl">Dielectric Insertion</span>
+            <span class="formula-val">Cₖ = k · C</span>
+          </div>
+          <div class="formula-row">
+            <span class="formula-lbl">Series Equivalent</span>
+            <span class="formula-val">C_eq⁻¹ = Σ Cᵢ⁻¹</span>
+          </div>
+          <div class="formula-row">
+            <span class="formula-lbl">Parallel Equivalent</span>
+            <span class="formula-val">C_eq = Σ Cᵢ</span>
+          </div>
+          <div class="formula-row">
+            <span class="formula-lbl">Electrostatic Energy</span>
+            <span class="formula-val">PE = ½ C V²</span>
+          </div>
+          <div class="formula-row">
+            <span class="formula-lbl">Electric Field Intensity</span>
+            <span class="formula-val">E = V / d</span>
+          </div>
+        </div>
+
+        <!-- Constants Drawer Bento -->
+        <div class="bento-card">
+          <h2 class="card-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="9" y1="9" x2="15" y2="15"></line>
+              <line x1="15" y1="9" x2="9" y2="15"></line>
+            </svg>
+            Physical Constants
+          </h2>
+          <div class="formula-row">
+            <span class="formula-lbl">Air Permittivity (ε₀)</span>
+            <span class="formula-val">8.85e-12 F/m</span>
+          </div>
+          <div class="formula-row">
+            <span class="formula-lbl">Air Dielectric Limit</span>
+            <span class="formula-val">3e6 V/m</span>
+          </div>
+          <div class="constants-box">
+            Our diagnostics mimic the precise standards of the Iraqi Ministerial Examinations for Elite Schools.
+          </div>
+        </div>
+      </div>
+
+      <!-- CENTER COLUMN: Primary Question Board -->
+      <div class="col-center">
+        <div class="bento-card bento-card-interactive" id="quiz-main-card">
+          
+          <!-- State Interface: Question Board -->
+          <div id="quest-board">
+            <div class="progress-header">
+              <span class="progress-count" id="quest-number">Question 1 of 20</span>
+              <div class="timer-badge" id="exam-timer" style="display: none;">
+                <svg style="width:13px;height:13px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+                <span id="timer-seconds">60s</span>
+              </div>
+            </div>
+            
+            <div class="progress-bar-container">
+              <div class="progress-bar-fill" id="progress-bar"></div>
+            </div>
+
+            <div class="question-box">
+              <p class="question-text" id="quest-text">The single spherical insulated conductor is rarely used to store electrical charges practically because:</p>
+              
+              <!-- Option Buttons -->
+              <div class="options-container" id="options-holder">
+                <button class="option-btn" onclick="checkAnswer('A')">
+                  <span class="option-letter">A</span>
+                  <span class="option-text">It converts electrical charges into magnetic fields instantly.</span>
+                </button>
+                <button class="option-btn" onclick="checkAnswer('B')">
+                  <span class="option-letter">B</span>
+                  <span class="option-text">Adding more charges inevitably increases its potential, leading to electrical discharge.</span>
+                </button>
+                <button class="option-btn" onclick="checkAnswer('C')">
+                  <span class="option-letter">C</span>
+                  <span class="option-text">The electric field remains constant regardless of the added charges.</span>
+                </button>
+                <button class="option-btn" onclick="checkAnswer('D')">
+                  <span class="option-letter">D</span>
+                  <span class="option-text">It can safely store an infinite amount of charges.</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Explanation Pop-up -->
+            <div class="feedback-explanation" id="explain-box">
+              <div class="feedback-badge" id="explain-badge">Correct</div>
+              <p class="explanation-text" id="explain-text">Explanation content goes here.</p>
+            </div>
+
+            <!-- Control Action -->
+            <div class="action-row">
+              <button class="primary-btn" id="next-btn" onclick="loadNextQuestion()" style="visibility: hidden;">
+                Next Question
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- State Interface: Scoreboard / Complete Screen -->
+          <div class="final-screen" id="scoreboard-board">
+            <div class="radial-score-container">
+              <svg class="radial-svg" viewBox="0 0 130 130">
+                <defs>
+                  <linearGradient id="neon-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#06b6d4" />
+                    <stop offset="100%" stop-color="#a855f7" />
+                  </linearGradient>
+                </defs>
+                <circle class="radial-bg" cx="65" cy="65" r="60"></circle>
+                <circle class="radial-bar" id="score-ring" cx="65" cy="65" r="60"></circle>
+              </svg>
+              <div class="radial-percent" id="score-percent">85%</div>
+            </div>
+
+            <div class="final-badge" id="performance-grade">Capacitor Guru</div>
+            <h2 style="font-family: var(--font-display); font-size: 1.4rem; font-weight: 700; margin-bottom: 0.5rem;" id="final-lead">Outstanding Performance!</h2>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); max-width: 320px; margin-bottom: 1.5rem;" id="final-sub">
+              You possess exceptional grasp of Chapter 1 Capacitors! Ready for the official ministerial exams.
+            </p>
+
+            <div class="final-score-breakdown">
+              <div class="score-stat">
+                <span class="score-stat-val" id="stat-correct">17</span>
+                <span class="score-stat-lbl">Correct</span>
+              </div>
+              <div class="score-stat" style="border-left: 1px solid rgba(255,255,255,0.08); padding-left: 1.5rem;">
+                <span class="score-stat-val" id="stat-wrong" style="color: var(--incorrect-red);">3</span>
+                <span class="score-stat-lbl">Incorrect</span>
+              </div>
+              <div class="score-stat" style="border-left: 1px solid rgba(255,255,255,0.08); padding-left: 1.5rem;">
+                <span class="score-stat-val" id="stat-efficiency">80%</span>
+                <span class="score-stat-lbl">Accuracy</span>
+              </div>
+            </div>
+
+            <button class="primary-btn" onclick="restartQuiz()">
+              Retake Placement Quiz
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M23 4v6h-6"></path>
+                <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+              </svg>
+            </button>
+            <button class="review-accordion-btn" onclick="scrollToReview()">Scroll to Detailed Breakdown</button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN: Progress Matrix & Active Stats -->
+      <div class="col-right">
+        <!-- Progress Map Matrix -->
+        <div class="bento-card">
+          <h2 class="card-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="7" height="7"></rect>
+              <rect x="14" y="3" width="7" height="7"></rect>
+              <rect x="14" y="14" width="7" height="7"></rect>
+              <rect x="3" y="14" width="7" height="7"></rect>
+            </svg>
+            Question Matrix
+          </h2>
+          <div class="status-panel-grid" id="matrix-grid">
+            <!-- Autogenerated 1 to 20 dots -->
+          </div>
+          <div class="stats-scoreboard">
+            <div class="scoreboard-row">
+              <span class="formula-lbl">Diagnostic Score</span>
+              <span class="formula-val" id="score-counter" style="background: rgba(168, 85, 247, 0.1); color: var(--neon-purple);">0 pts</span>
+            </div>
+            <div class="scoreboard-row" style="margin-top: 0.4rem;">
+              <span class="formula-lbl">Active Streak</span>
+              <span class="formula-val" id="streak-counter" style="background: rgba(16, 185, 129, 0.1); color: var(--correct-green);">🔥 0</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive Calculator Widget Bento -->
+        <div class="bento-card">
+          <h2 class="card-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect>
+              <line x1="9" y1="22" x2="15" y2="22"></line>
+              <line x1="8" y1="6" x2="16" y2="6"></line>
+              <line x1="16" y1="14" x2="16" y2="14.01"></line>
+              <line x1="12" y1="14" x2="12" y2="14.01"></line>
+              <line x1="8" y1="14" x2="8" y2="14.01"></line>
+              <line x1="16" y1="18" x2="16" y2="18.01"></line>
+              <line x1="12" y1="18" x2="12" y2="18.01"></line>
+              <line x1="8" y1="18" x2="8" y2="18.01"></line>
+              <line x1="16" y1="10" x2="16" y2="10.01"></line>
+              <line x1="12" y1="10" x2="12" y2="10.01"></line>
+              <line x1="8" y1="10" x2="8" y2="10.01"></line>
+            </svg>
+            Capacitance Calculator
+          </h2>
+          <p style="font-size: 0.7rem; color: var(--text-secondary); margin-bottom: 0.25rem;">Compute Q, C, or V dynamically:</p>
+          <div class="calc-input-group">
+            <div class="calc-field">
+              <label>Charge Q (µC)</label>
+              <input type="number" id="calc-q" placeholder="Enter Q">
+            </div>
+            <div class="calc-field">
+              <label>Capacitance C (µF)</label>
+              <input type="number" id="calc-c" placeholder="Enter C">
+            </div>
+            <div class="calc-field">
+              <label>Voltage V (Volts)</label>
+              <input type="number" id="calc-v" placeholder="Enter V">
+            </div>
+            <button class="calc-btn" onclick="calculateCapacitor()">Resolve Variable</button>
+          </div>
+          <div class="calc-result" id="calc-res">Result: Ready</div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Editorial Premium Footer -->
+  <footer>
+    <div class="footer-branding">Designed & Developed for Master Walid Khalid Al-Fatlawi</div>
+    <div class="footer-sub">Specialist Physics Education • Al-Mutamayizeen Schools Curriculum • 6th Scientific Grade</div>
+  </footer>
+
+  <!-- ----------------------------------
+       vanilla script: Database & Game Engine
+       ---------------------------------- -->
+  <script>
+    // 1. Interactive Diagnostic Questionnaire Matrix
+    const db = [
+      {
+        id: 1,
+        question: "The single spherical insulated conductor is rarely used to store electrical charges practically because:",
+        options: [
+          "It converts electrical charges into magnetic fields instantly.",
+          "Adding more charges inevitably increases its potential, leading to electrical discharge into the surrounding air.",
+          "The electric field remains constant regardless of the added charges.",
+          "It can safely store an infinite amount of charges."
+        ],
+        correct: "B",
+        explanation: "According to the relation V = k·Q/R, adding charge (Q) raises the conductor's potential (V), increasing the electric field strength (E=V/d). If the field matches air's dielectric limit (~3×10⁶ V/m), breakdown occurs, causing immediate discharge."
+      },
+      {
+        id: 2,
+        question: "The Farad (F) is the standard unit of measurement for capacitance. Based on fundamental physical relationships, which of the following is NOT equivalent to the Farad?",
+        options: [
+          "Coulomb² / Joule",
+          "Coulomb / Volt",
+          "Joule / Volt²",
+          "Coulomb · Volt²"
+        ],
+        correct: "D",
+        explanation: "Let's review equivalents: (A) PE = 0.5Q²/C ⇒ C = Q²/2PE = C²/J. (B) C = Q/V ⇒ C/V. (C) PE = 0.5CV² ⇒ C = 2PE/V² = J/V². Choice (D) Coulomb·Volt² bears no equivalent and is physically incorrect."
+      },
+      {
+        id: 3,
+        question: "Dielectric strength is a critical property of insulating materials. It is defined as the:",
+        options: [
+          "Minimum voltage needed to charge a capacitor to 1 Coulomb.",
+          "Maximum electric field that the material can withstand before electrical breakdown occurs.",
+          "Total amount of energy stored per unit volume.",
+          "Ratio of capacitance with a dielectric to capacitance with air."
+        ],
+        correct: "B",
+        explanation: "Dielectric strength measures the limit an insulator can survive before electrons break free. It represents the maximum threshold of the electric field gradient (E) before dielectric breakdown occurs."
+      },
+      {
+        id: 4,
+        question: "When non-polar dielectrics (like glass) are inserted between the plates of a charged capacitor, the external electric field will:",
+        options: [
+          "Minimally displace the centers of the positive and negative charges, creating temporary dipoles.",
+          "Align the already existing permanent dipoles opposite to the external field.",
+          "Increase the potential difference across the plates significantly.",
+          "Completely cancel out the internal electric field."
+        ],
+        correct: "A",
+        explanation: "In non-polar molecules, Centers of positive and negative charges align perfectly in vacuum. Inserting them inside an external field minimally shifts these poles in opposite directions, creating temporary induced dipoles."
+      },
+      {
+        id: 5,
+        question: "The primary technical purpose of connecting capacitors in a series combination is to:",
+        options: [
+          "Increase the equivalent capacitance of the group.",
+          "Increase the total charge stored at a low voltage.",
+          "Allow the system to withstand a larger total potential difference that an individual capacitor cannot tolerate.",
+          "Decrease the total electric field strength to absolute zero."
+        ],
+        correct: "C",
+        explanation: "In series, voltage splits proportionally (V_total = V₁ + V₂ + ...). This prevents exceedance of the maximum working voltage of a single capacitor, letting the circuit withstand higher potential difference."
+      },
+      {
+        id: 6,
+        question: "A parallel-plate capacitor has a capacitance of C. If the surface area of both plates is doubled and the distance between them is halved, the new capacitance becomes:",
+        options: [
+          "C",
+          "2C",
+          "4C",
+          "0.25C"
+        ],
+        correct: "C",
+        explanation: "Using C = ε₀A/d, doubling area gives 2A and halving distance gives 0.5d. This results in C' = ε₀(2A)/(0.5d) = 4(ε₀A/d) = 4C."
+      },
+      {
+        id: 7,
+        question: "If the potential difference between the plates of a capacitor with a constant capacitance is reduced to half its original value, the stored electrical energy (PE) becomes:",
+        options: [
+          "Half its original value.",
+          "One-fourth (0.25) of its original value.",
+          "Double its original value.",
+          "Unchanged."
+        ],
+        correct: "B",
+        explanation: "Electrostatic energy is quadratic concerning voltage: PE = ½CV². If voltage is halved (V'=0.5V), then PE' = ½C(0.5V)² = 0.25(½CV²), dropping to one-fourth."
+      },
+      {
+        id: 8,
+        question: "A parallel-plate capacitor with air as an insulator has a capacitance of 40 µF. When a specific dielectric material is inserted between its plates, its capacitance increases by 70 µF. The dielectric constant (k) of this material is:",
+        options: [
+          "1.75",
+          "0.57",
+          "2.75",
+          "1.4"
+        ],
+        correct: "C",
+        explanation: "Capacitance increases to: Cₖ = C_air + ΔC = 40 + 70 = 110 µF. The dielectric constant is the ratio: k = Cₖ/C_air = 110/40 = 2.75."
+      },
+      {
+        id: 9,
+        question: "To obtain the minimum possible equivalent capacitance from a given set of three identical capacitors (each with capacitance C), you must connect them:",
+        options: [
+          "All in parallel.",
+          "All in series.",
+          "Two in parallel, and the combination in series with the third.",
+          "Two in series, and the combination in parallel with the third."
+        ],
+        correct: "B",
+        explanation: "For minimum capacitance, connect in series: 1/C_eq = 1/C + 1/C + 1/C ⇒ C_eq = C/3. This splits equivalent capacity below any individual element."
+      },
+      {
+        id: 10,
+        question: "A 2 µF capacitor is charged by a 5000 V potential difference. The electrical energy stored in its electric field is:",
+        options: [
+          "10 J",
+          "25 J",
+          "50 J",
+          "100 J"
+        ],
+        correct: "B",
+        explanation: "Substitute values into energy formula: PE = ½CV² = 0.5 × (2×10⁻⁶ F) × (5000 V)² = 10⁻⁶ × 25×10⁶ = 25 Joules."
+      },
+      {
+        id: 11,
+        question: "A charged capacitor is disconnected from the voltage source. If a dielectric slab (k > 1) is inserted between its plates, which of the following quantities remains constant?",
+        options: [
+          "Electric potential difference",
+          "Capacitance",
+          "Stored electric charge",
+          "Stored electric energy"
+        ],
+        correct: "C",
+        explanation: "Since the capacitor is disconnected from the battery, it acts as an isolated system. Charge conservation ensures the net stored charge (Q) remains entirely unchanged."
+      },
+      {
+        id: 12,
+        question: "A parallel-plate capacitor remains continuously connected to a constant voltage battery. If the plates are pulled slightly further apart from each other, what happens to the electric field (E) and the stored charge (Q)?",
+        options: [
+          "Both E and Q increase.",
+          "Both E and Q decrease.",
+          "E remains constant, Q decreases.",
+          "E decreases, Q remains constant."
+        ],
+        correct: "B",
+        explanation: "Connected to a battery implies constant V. Increasing d decreases E (E=V/d). It also decreases capacitance (C=ε₀A/d), leading to direct decrease in stored charge Q (Q=CV)."
+      },
+      {
+        id: 13,
+        question: "In a direct current (DC) circuit, a capacitor acts as an open switch after being fully charged because:",
+        options: [
+          "The internal resistance of the battery becomes infinite.",
+          "The potential difference across the capacitor becomes equal to the potential difference of the battery, making the current zero.",
+          "The capacitor discharges its energy instantly into the resistor.",
+          "The accumulated charges continuously leak into the surrounding air."
+        ],
+        correct: "B",
+        explanation: "During DC charging, charge builds up until the capacitor's potential matches the source EMF. The net voltage driving current becomes zero, halting all electron flow."
+      },
+      {
+        id: 14,
+        question: "A charged capacitor (C1) is entirely disconnected from its voltage source. If an uncharged capacitor (C2) is then connected in parallel to it, the potential difference across C1 will:",
+        options: [
+          "Increase, because the total stored charge in the system increases.",
+          "Decrease, because the equivalent capacitance increases while the total charge remains constant.",
+          "Remain constant, because capacitors connected in parallel always maintain their initial voltage.",
+          "Drop to zero immediately."
+        ],
+        correct: "B",
+        explanation: "Disconnection locks total charge Q. Joining in parallel increases C_eq (C₁ + C₂). The resulting shared voltage drops according to relationship: V = Q / C_eq."
+      },
+      {
+        id: 15,
+        question: "Two identical capacitors are fully charged to a charge (Q) each. If they are disconnected from the source and then connected in parallel such that the plates with opposite (different) charge signs are joined together, the net final charge on each capacitor is:",
+        options: [
+          "Q",
+          "2Q",
+          "Zero",
+          "0.5Q"
+        ],
+        correct: "C",
+        explanation: "By connecting positive plates to negative ones, charges equal in magnitude and opposite in polarity neutralize each other entirely (total system charge drops to (+Q) + (-Q) = 0)."
+      },
+      {
+        id: 16,
+        question: "Two capacitors (C1 = 4 µF and C2 = 8 µF) are connected in parallel across a 12 V battery. The group is then disconnected from the battery. If a dielectric slab is inserted between the plates of C1, the total potential difference of the system drops to 6 V. The dielectric constant (k) of the slab is:",
+        options: [
+          "2",
+          "3",
+          "4",
+          "5"
+        ],
+        correct: "C",
+        explanation: "Initial Q = C_eq × V = (4+8) × 12 = 144 µC. Disconnected implies constant Q. New V' = 6V. New C_eq' = Q/V' = 144/6 = 24 µF. Since in parallel: C₁' + C₂ = 24 ⇒ 4k + 8 = 24 ⇒ 4k = 16 ⇒ k = 4."
+      },
+      {
+        id: 17,
+        question: "If 6 capacitors of equal capacitance (C) are connected in parallel, their equivalent capacitance is 9 µF. If the same 6 capacitors are disconnected and reconnected in series, their new equivalent capacitance will be:",
+        options: [
+          "54 µF",
+          "1.5 µF",
+          "0.25 µF",
+          "9 µF"
+        ],
+        correct: "C",
+        explanation: "In parallel: C_eq = 6C = 9 ⇒ C = 1.5 µF. Reconnecting in series: C_eq' = C/n = 1.5/6 = 0.25 µF."
+      },
+      {
+        id: 18,
+        question: "In a DC circuit, a 12 V battery is connected in series with a resistor (R = 20 Ω) and a lamp (r = 10 Ω). If a 5 µF capacitor is connected in parallel with the lamp, the potential difference across the capacitor when it is fully charged will be:",
+        options: [
+          "12 V",
+          "8 V",
+          "4 V",
+          "2 V"
+        ],
+        correct: "C",
+        explanation: "Fully charged means zero current to capacitor. Main loop current: I = V/(R+r) = 12/30 = 0.4 A. Volts across lamp: V_lamp = I·r = 0.4×10 = 4 V. Capacitor shares lamp voltage in parallel: 4 V."
+      },
+      {
+        id: 19,
+        question: "Using the exact same components as the previous question (12 V battery, R = 20 Ω, r = 10 Ω), if the 5 µF capacitor is instead connected in series with the lamp and the resistor, the potential difference across the capacitor when fully charged will be:",
+        options: [
+          "12 V",
+          "8 V",
+          "4 V",
+          "Zero"
+        ],
+        correct: "A",
+        explanation: "In series, the fully charged capacitor acts as open switch. Main loop current drops to zero. No voltage drops occur across R and r. Thus, capacitance voltage equals source voltage: 12 V."
+      },
+      {
+        id: 20,
+        question: "Two capacitors (C1 = 6 µF and C2 = 3 µF) are connected in series with each other, and this combination is then connected in parallel with a third capacitor (C3 = 4 µF). If the total potential difference applied across the entire group is 20 V, the total stored charge (Q_total) of the group is:",
+        options: [
+          "240 µC",
+          "120 µC",
+          "180 µC",
+          "60 µC"
+        ],
+        correct: "B",
+        explanation: "Series combination: C_12 = (6×3)/(6+3) = 2 µF. Parallel connection with C3: C_eq = 2 + 4 = 6 µF. Total charge: Q = C_eq × V = 6 × 20 = 120 µC."
+      }
+    ];
+
+    // 2. Play Game State Manager
+    const state = {
+      currIdx: 0,
+      score: 0,
+      streak: 0,
+      answersLog: Array(20).fill(null), // tracks true/false per question
+      sfxEnabled: true,
+      examMode: false,
+      timerSeconds: 60,
+      timerInterval: null
+    };
+
+    // Synthesizer Audio Engine using Web Audio API
+    class SynthSFX {
+      constructor() {
+        this.ctx = null;
+      }
+      init() {
+        if (!this.ctx) {
+          const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+          if (AudioContextClass) this.ctx = new AudioContextClass();
+        }
+      }
+      playCorrect() {
+        if (!state.sfxEnabled) return;
+        this.init();
+        if(!this.ctx) return;
+        const now = this.ctx.currentTime;
+        this.pitchTone(523.25, now, 0.12); // C5
+        this.pitchTone(659.25, now + 0.08, 0.12); // E5
+        this.pitchTone(783.99, now + 0.15, 0.12); // G5
+        this.pitchTone(1046.50, now + 0.22, 0.25); // C6
+      }
+      playIncorrect() {
+        if (!state.sfxEnabled) return;
+        this.init();
+        if(!this.ctx) return;
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(220, now);
+        osc.frequency.linearRampToValueAtTime(130, now + 0.25);
+        gain.gain.setValueAtTime(0.08, now);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.28);
+        osc.start();
+        osc.stop(now + 0.28);
+      }
+      pitchTone(freq, start, duration) {
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, start);
+        gain.gain.setValueAtTime(0.05, start);
+        gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
+        osc.start(start);
+        osc.stop(start + duration);
+      }
+    }
+    const audio = new SynthSFX();
+
+    // 3. Launching Dashboard Setup
+    function initQuiz() {
+      state.currIdx = 0;
+      state.score = 0;
+      state.streak = 0;
+      state.answersLog.fill(null);
+      
+      document.getElementById('scoreboard-board').style.display = 'none';
+      document.getElementById('quest-board').style.display = 'block';
+
+      generateMatrix();
+      renderActiveQuestion();
+    }
+
+    // Generate Right Panel Clickable Matrix Dots
+    function generateMatrix() {
+      const container = document.getElementById('matrix-grid');
+      container.innerHTML = '';
+      for (let i = 0; i < db.length; i++) {
+        const key = i + 1;
+        const button = document.createElement('button');
+        button.className = 'matrix-dot';
+        button.innerText = key;
+        button.id = `dot-${i}`;
+        button.onclick = () => jumpToQuestion(i);
+        container.appendChild(button);
+      }
+    }
+
+    function updateMatrixDots() {
+      for (let i = 0; i < db.length; i++) {
+        const dot = document.getElementById(`dot-${i}`);
+        if (!dot) continue;
+        dot.className = 'matrix-dot';
+        
+        if (i === state.currIdx) {
+          dot.classList.add('active-dot');
+        }
+        
+        if (state.answersLog[i] === true) {
+          dot.classList.add('correct-dot');
+        } else if (state.answersLog[i] === false) {
+          dot.classList.add('incorrect-dot');
+        }
+      }
+    }
+
+    // 4. Question Loader
+    function renderActiveQuestion() {
+      const q = db[state.currIdx];
+      
+      // Setup titles and progress
+      document.getElementById('quest-number').innerText = `Question ${state.currIdx + 1} of ${db.length}`;
+      document.getElementById('quest-text').innerText = q.question;
+      
+      const percent = ((state.currIdx + 1) / db.length) * 100;
+      document.getElementById('progress-bar').style.width = `${percent}%`;
+
+      // Draw Options
+      const optionsHolder = document.getElementById('options-holder');
+      optionsHolder.innerHTML = '';
+      
+      const letters = ['A', 'B', 'C', 'D'];
+      optionsHolder.className = "options-container";
+      
+      q.options.forEach((optText, index) => {
+        const letter = letters[index];
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.id = `opt-${letter}`;
+        btn.onclick = () => validateSelection(letter);
+        btn.innerHTML = `
+          <span class="option-letter">${letter}</span>
+          <span class="option-text">${optText}</span>
+        `;
+        optionsHolder.appendChild(btn);
+      });
+
+      // Reset controls & timer
+      document.getElementById('explain-box').style.display = 'none';
+      document.getElementById('next-btn').style.visibility = 'hidden';
+      
+      updateMatrixDots();
+      startTimer();
+    }
+
+    // 5. User Selection Evaluation
+    function validateSelection(chosenOption) {
+      // Clear timers
+      clearInterval(state.timerInterval);
+      
+      const q = db[state.currIdx];
+      const allBtns = document.querySelectorAll('.option-btn');
+      
+      // Freeze interactions
+      allBtns.forEach(btn => btn.disabled = true);
+      
+      const isCorrect = (chosenOption === q.correct);
+      state.answersLog[state.currIdx] = isCorrect;
+      
+      const chosenBtn = document.getElementById(`opt-${chosenOption}`);
+      const correctBtn = document.getElementById(`opt-${q.correct}`);
+
+      if (isCorrect) {
+        state.score += 100;
+        state.streak += 1;
+        audio.playCorrect();
+        chosenBtn.classList.add('correct-choice');
+        setupExplanationUI(true, q.explanation);
+      } else {
+        state.streak = 0;
+        audio.playIncorrect();
+        chosenBtn.classList.add('incorrect-choice');
+        correctBtn.classList.add('correct-choice');
+        setupExplanationUI(false, q.explanation);
+      }
+
+      // Update HUD Scoreboard values
+      document.getElementById('score-counter').innerText = `${state.score} pts`;
+      document.getElementById('streak-counter').innerText = `🔥 ${state.streak}`;
+      
+      // Reveal action next button
+      document.getElementById('next-btn').style.visibility = 'visible';
+      updateMatrixDots();
+    }
+
+    function setupExplanationUI(isCorrect, text) {
+      const box = document.getElementById('explain-box');
+      const badge = document.getElementById('explain-badge');
+      const textElem = document.getElementById('explain-text');
+      
+      badge.textContent = isCorrect ? "Excellent" : "Incorrect";
+      badge.className = isCorrect ? "feedback-badge correct" : "feedback-badge incorrect";
+      textElem.textContent = text;
+      
+      box.style.display = 'block';
+    }
+
+    // 6. Navigation flows
+    function loadNextQuestion() {
+      if (state.currIdx < db.length - 1) {
+        state.currIdx++;
+        renderActiveQuestion();
+      } else {
+        renderCompleteScoreboard();
+      }
+    }
+
+    function jumpToQuestion(idx) {
+      // Allowed if already answered or if in practice mode
+      if (!state.examMode) {
+        clearInterval(state.timerInterval);
+        state.currIdx = idx;
+        renderActiveQuestion();
+      }
+    }
+
+    // 7. Exam Timer control
+    function startTimer() {
+      clearInterval(state.timerInterval);
+      if (!state.examMode) return;
+
+      state.timerSeconds = 45;
+      const el = document.getElementById('exam-timer');
+      const secondsEl = document.getElementById('timer-seconds');
+      secondsEl.innerText = `${state.timerSeconds}s`;
+      el.classList.remove('danger');
+
+      state.timerInterval = setInterval(() => {
+        state.timerSeconds--;
+        secondsEl.innerText = `${state.timerSeconds}s`;
+        
+        if (state.timerSeconds <= 10) {
+          el.classList.add('danger');
+        }
+
+        if (state.timerSeconds <= 0) {
+          clearInterval(state.timerInterval);
+          // Forfeit question as incorrect
+          autoFailQuestion();
+        }
+      }, 1000);
+    }
+
+    function autoFailQuestion() {
+      const q = db[state.currIdx];
+      state.answersLog[state.currIdx] = false;
+      state.streak = 0;
+      audio.playIncorrect();
+
+      const correctBtn = document.getElementById(`opt-${q.correct}`);
+      if (correctBtn) correctBtn.classList.add('correct-choice');
+
+      const allBtns = document.querySelectorAll('.option-btn');
+      allBtns.forEach(btn => btn.disabled = true);
+
+      setupExplanationUI(false, "Timeout! Time limit exceeded. " + q.explanation);
+      document.getElementById('next-btn').style.visibility = 'visible';
+      updateMatrixDots();
+    }
+
+    // 8. Toggles & UI State Adjustments
+    function toggleSFX() {
+      state.sfxEnabled = !state.sfxEnabled;
+      document.getElementById('sfx-status').innerText = state.sfxEnabled ? "Sound ON" : "Sound OFF";
+    }
+
+    function toggleMode() {
+      state.examMode = !state.examMode;
+      const badge = document.getElementById('toggle-mode');
+      const statusText = document.getElementById('mode-status');
+      const timerBadge = document.getElementById('exam-timer');
+      
+      if (state.examMode) {
+        badge.classList.add('active');
+        statusText.innerText = "Exam Mode";
+        timerBadge.style.display = 'flex';
+      } else {
+        badge.classList.remove('active');
+        statusText.innerText = "Practice Mode";
+        timerBadge.style.display = 'none';
+        clearInterval(state.timerInterval);
+      }
+      initQuiz();
+    }
+
+    // 9. Scoreboard calculations
+    function renderCompleteScoreboard() {
+      document.getElementById('quest-board').style.display = 'none';
+      const board = document.getElementById('scoreboard-board');
+      board.style.display = 'flex';
+
+      const correctCount = state.answersLog.filter(x => x === true).length;
+      const wrongCount = db.length - correctCount;
+      const accuracy = Math.round((correctCount / db.length) * 100);
+
+      // Radial Score Fill Animation
+      const offsetValue = 377 - (377 * accuracy) / 100;
+      const ring = document.getElementById('score-ring');
+      ring.style.strokeDashoffset = offsetValue;
+      document.getElementById('score-percent').innerText = `${accuracy}%`;
+
+      document.getElementById('stat-correct').innerText = correctCount;
+      document.getElementById('stat-wrong').innerText = wrongCount;
+      document.getElementById('stat-efficiency').innerText = `${accuracy}%`;
+
+      // Performance Evaluator Aligned with Iraqi Standards
+      const rank = document.getElementById('performance-grade');
+      const headerLeader = document.getElementById('final-lead');
+      const textSub = document.getElementById('final-sub');
+
+      if (accuracy >= 90) {
+        rank.textContent = "Capacitor Guru";
+        headerLeader.textContent = "Outstanding Performance!";
+        textSub.textContent = "Superb grasp of dielectric principles! Master Walid is immensely proud of your diagnostic score.";
+      } else if (accuracy >= 75) {
+        rank.textContent = "Dielectric Specialist";
+        headerLeader.textContent = "Excellent standing!";
+        textSub.textContent = "Great capability in series/parallel circuit analysis and charge distribution calculations.";
+      } else if (accuracy >= 50) {
+        rank.textContent = "Charge Explorer";
+        headerLeader.textContent = "Keep Progressing!";
+        textSub.textContent = "Consistent foundation, but review dielectric polarization constraints and formula derivations.";
+      } else {
+        rank.textContent = "Farad Novice";
+        headerLeader.textContent = "Reinforcement Needed";
+        textSub.textContent = "Review core capacitor equations and practice simple system models before ministerial attempts.";
+      }
+    }
+
+    function restartQuiz() {
+      initQuiz();
+    }
+
+    function scrollToReview() {
+      const grid = document.getElementById('matrix-grid');
+      if (grid) grid.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // 10. Solver Calculator Utility
+    function calculateCapacitor() {
+      const qVal = parseFloat(document.getElementById('calc-q').value);
+      const cVal = parseFloat(document.getElementById('calc-c').value);
+      const vVal = parseFloat(document.getElementById('calc-v').value);
+      const res = document.getElementById('calc-res');
+
+      if (!isNaN(qVal) && !isNaN(cVal)) {
+        // Find V = Q / C
+        const ans = qVal / cVal;
+        res.innerText = `Voltage: ${ans.toFixed(2)} Volts`;
+      } else if (!isNaN(qVal) && !isNaN(vVal)) {
+        // Find C = Q / V
+        const ans = qVal / vVal;
+        res.innerText = `Capacitance: ${ans.toFixed(2)} µF`;
+      } else if (!isNaN(cVal) && !isNaN(vVal)) {
+        // Find Q = C * V
+        const ans = cVal * vVal;
+         res.innerText = `Charge: ${ans.toFixed(2)} µC`;
+      } else {
+        res.innerText = `Input at least 2 parameters!`;
+      }
+    }
+
+    // Init Applet
+    window.onload = () => {
+      initQuiz();
+    };
+  </script>
+</body>
+</html>

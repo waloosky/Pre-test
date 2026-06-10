@@ -1,0 +1,6 @@
+{
+  "name": "Capacitors Quiz",
+  "description": "An interactive, premium diagnostic placement quiz on Chapter 1: Capacitors for the 6th Scientific Grade Iraqi Curriculum (Al-Mutamayizeen Schools).",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
