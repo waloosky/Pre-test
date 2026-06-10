@@ -8,7 +8,7 @@
   <!-- Premium Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600&family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
 
   <style>
     /* ----------------------------------
@@ -44,6 +44,8 @@
       --font-serif: 'Playfair Display', Georgia, serif;
       --font-sans: 'Inter', sans-serif;
       --font-mono: 'JetBrains Mono', monospace;
+      --font-arabic: 'Cairo', sans-serif;
+      --font-calligraphy: 'Aref Ruqaa', serif;
       
       --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     }
@@ -854,6 +856,131 @@
       0% { transform: translateY(0); }
       100% { transform: translateY(-4px); }
     }
+
+    /* ----------------------------------
+       12. Professor Walid Khalid Branding & Signature Styles
+       ---------------------------------- */
+    .brand-logo-container {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .brand-seal-wrapper {
+      position: relative;
+      width: 52px;
+      height: 52px;
+      flex-shrink: 0;
+    }
+
+    .brand-seal-svg {
+      width: 100%;
+      height: 100%;
+      transition: var(--transition-smooth);
+    }
+
+    .brand-seal-outer-spin {
+      transform-origin: center;
+      animation: slow-spin 30s linear infinite;
+    }
+
+    @keyframes slow-spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .brand-seal-wrapper:hover .brand-seal-svg {
+      transform: scale(1.1);
+      filter: drop-shadow(0 0 16px rgba(56, 189, 248, 0.75));
+    }
+
+    /* Signature HUD for certificate & footer */
+    .signature-badge-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1.25rem;
+      background: radial-gradient(circle at center, rgba(17, 24, 39, 0.8) 0%, rgba(10, 15, 26, 0.95) 100%);
+      border: 1px dashed rgba(251, 191, 36, 0.12);
+      border-radius: 16px;
+      box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.6), 0 10px 30px rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(12px);
+      max-width: 380px;
+      width: 100%;
+      margin: 1rem auto;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .signature-badge-block::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent, rgba(251, 191, 36, 0.03), transparent);
+      transform: rotate(45deg);
+      pointer-events: none;
+    }
+
+    .signature-badge-title {
+      font-size: 0.65rem;
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: rgba(251, 191, 36, 0.7);
+      margin-bottom: 0.35rem;
+    }
+
+    .signature-render-box {
+      width: 280px;
+      height: 110px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .signature-gold-svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .signature-verified-tag {
+      font-size: 0.7rem;
+      font-family: var(--font-arabic);
+      color: var(--text-muted);
+      margin-top: -0.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: rgba(255, 255, 255, 0.02);
+      padding: 0.15rem 0.5rem;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .verified-mark-icon {
+      color: var(--correct-green);
+      width: 11px;
+      height: 11px;
+      fill: currentColor;
+    }
+
+    /* RTL Arabic layout assists */
+    .rtl-text {
+      direction: rtl;
+      font-family: var(--font-arabic);
+    }
+
+    .calligraphy-text {
+      direction: rtl;
+      font-family: var(--font-calligraphy);
+    }
   </style>
 </head>
 <body>
@@ -868,15 +995,33 @@
     <!-- Header Area -->
     <header>
       <div class="header-logo">
-        <svg class="capacitor-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <line x1="4" y1="12" x2="9" y2="12"></line>
-          <line x1="15" y1="12" x2="20" y2="12"></line>
-          <line x1="9" y1="5" x2="9" y2="19"></line>
-          <line x1="15" y1="5" x2="15" y2="19"></line>
-        </svg>
+        <div class="brand-seal-wrapper">
+          <svg class="brand-seal-svg" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="cyanPurple" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#38bdf8" />
+                <stop offset="100%" stop-color="#818cf8" />
+              </linearGradient>
+            </defs>
+            <!-- Outer slowly spinning dash ring -->
+            <circle class="brand-seal-outer-spin" cx="100" cy="100" r="90" stroke="url(#cyanPurple)" stroke-width="25%" stroke-linecap="round" stroke-dasharray="8 12" style="stroke-width: 2px;"/>
+            <!-- Solid inner rings -->
+            <circle cx="100" cy="100" r="78" stroke="rgba(56, 189, 248, 0.4)" stroke-width="1.5" />
+            <circle cx="100" cy="100" r="72" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1" />
+            <!-- Parallel plate capacitor graphic inside the core -->
+            <path d="M 60 100 L 82 100" stroke="#38bdf8" stroke-width="3" stroke-linecap="round"/>
+            <path d="M 118 100 L 140 100" stroke="#38bdf8" stroke-width="3" stroke-linecap="round"/>
+            <line x1="82" y1="70" x2="82" y2="130" stroke="#38bdf8" stroke-width="5" stroke-linecap="round"/>
+            <line x1="118" y1="70" x2="118" y2="130" stroke="#818cf8" stroke-width="5" stroke-linecap="round"/>
+            
+            <!-- Physics field lines radiating -->
+            <circle cx="100" cy="100" r="16" stroke="rgba(129, 140, 248, 0.3)" stroke-width="1" stroke-dasharray="2 3"/>
+            <circle cx="100" cy="100" r="32" stroke="rgba(129, 140, 248, 0.15)" stroke-width="1" stroke-dasharray="4 4"/>
+          </svg>
+        </div>
         <div class="header-title-wrapper">
-          <h1>Chapter 1: Capacitors</h1>
-          <p>Al-Mutamayizeen Diagnostic Placement</p>
+          <h1 class="rtl-text" style="font-size: 1.15rem; font-weight: 800; letter-spacing: normal; margin-bottom: 2px; color: var(--neon-cyan);">الأستاذ وليد خالد الفتلاوي</h1>
+          <p style="font-family: var(--font-mono); font-size: 0.62rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin: 0;">SPECIALIST PHYSICS • AL-MUTAMAYIZEEN</p>
         </div>
       </div>
       
@@ -1067,14 +1212,66 @@
               </div>
             </div>
 
-            <button class="primary-btn" onclick="restartQuiz()">
-              Retake Placement Quiz
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M23 4v6h-6"></path>
-                <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
-              </svg>
-            </button>
-            <button class="review-accordion-btn" onclick="scrollToReview()">Scroll to Detailed Breakdown</button>
+            <!-- Official Endorsement Stamp from Professor Walid Khalid -->
+            <div style="border-top: 1px dashed rgba(255,255,255,0.08); width: 100%; max-width: 420px; margin-top: 0.5rem; padding-top: 1.25rem;">
+              <div class="signature-badge-block" style="margin: 0 auto 1.5rem auto; border-color: rgba(56, 189, 248, 0.22); background: radial-gradient(circle at center, rgba(17, 24, 39, 0.9) 0%, rgba(10, 14, 23, 0.98) 100%);">
+                <span class="signature-badge-title" style="color: var(--neon-cyan); text-transform: uppercase;">Diagnostic Endorsement Certificate</span>
+                
+                <h3 class="rtl-text" style="font-size: 0.82rem; font-weight: 700; color: #fff; margin-top: 0.5rem; margin-bottom: 0.25rem;">الـتـقـيـيـم الـتـشـخـيـصـي الـمـعـتـمـد</h3>
+                <p class="rtl-text" style="font-size: 0.68rem; color: var(--text-secondary); max-width: 290px; line-height: 1.4; margin: 0 auto 0.5rem auto;">
+                  تم تقييم واعتماد مستوى الطالب بنجاح في الفصل الأول لفيزياء السادس العلمي (المتسعات)
+                </p>
+
+                <div class="signature-render-box" style="height: 100px;">
+                  <svg viewBox="0 0 400 160" class="signature-gold-svg">
+                    <defs>
+                      <linearGradient id="goldGradientQuiz" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#fbbf24" stroke-width="2"/>
+                        <stop offset="35%" stop-color="#f59e0b" />
+                        <stop offset="70%" stop-color="#d97706" />
+                        <stop offset="100%" stop-color="#b45309" />
+                      </linearGradient>
+                      <filter id="goldGlowQuiz" x="-20%" y="-20%" width="140%" height="140%">
+                        <feGaussianBlur stdDeviation="3" result="blur" />
+                        <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                      </filter>
+                    </defs>
+                    
+                    <path d="M 25 50 Q 200 -12 375 45" fill="none" stroke="url(#goldGradientQuiz)" stroke-width="2" opacity="0.45" stroke-linecap="round"/>
+                    <path d="M 40 55 Q 200 3 360 50" fill="none" stroke="url(#goldGradientQuiz)" stroke-width="1.2" opacity="0.3" stroke-linecap="round"/>
+
+                    <text x="50%" y="90" font-family="var(--font-calligraphy)" font-size="34" font-weight="bold" fill="url(#goldGradientQuiz)" text-anchor="middle" filter="url(#goldGlowQuiz)" style="letter-spacing: -0.5px;">
+                      وليد خالد الفتلاوي
+                    </text>
+
+                    <path d="M 50 102 C 140 145, 260 85, 350 115 C 385 125, 340 152, 290 142 C 220 128, 140 85, 95 128 C 82 140, 115 145, 140 138" fill="none" stroke="url(#goldGradientQuiz)" stroke-width="2.5" stroke-linecap="round" filter="url(#goldGlowQuiz)"/>
+                    <path d="M 120 112 C 180 135, 230 112, 280 120" fill="none" stroke="url(#goldGradientQuiz)" stroke-width="1" opacity="0.7"/>
+
+                    <text x="50%" y="152" font-family="var(--font-mono)" font-size="10" font-weight="600" fill="#94a3b8" opacity="0.6" text-anchor="middle" letter-spacing="1.5">
+                      PHYSICS TEACHER • AL-MUTAMAYIZEEN
+                    </text>
+                  </svg>
+                </div>
+                
+                <div class="signature-verified-tag" style="border-color: rgba(6, 182, 212, 0.15)">
+                  <svg class="verified-mark-icon" viewBox="0 0 20 20" style="width: 12px; height: 12px; fill: var(--correct-green); display: inline-block;">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                  </svg>
+                  <span style="font-size: 0.65rem; color: var(--text-muted); font-family: var(--font-mono);">معتمد إلكترونياً من أ.وليد خالد الفتلاوي</span>
+                </div>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 1rem; align-items: center; justify-content: center; width: 100%;">
+              <button class="primary-btn" onclick="restartQuiz()">
+                Retake Placement Quiz
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M23 4v6h-6"></path>
+                  <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+                </svg>
+              </button>
+              <button class="review-accordion-btn" onclick="scrollToReview()" style="margin-top: 0;">Scroll to Detailed Breakdown</button>
+            </div>
           </div>
 
         </div>
@@ -1152,8 +1349,64 @@
 
   <!-- Editorial Premium Footer -->
   <footer>
-    <div class="footer-branding">Designed & Developed for Master Walid Khalid Al-Fatlawi</div>
-    <div class="footer-sub">Specialist Physics Education • Al-Mutamayizeen Schools Curriculum • 6th Scientific Grade</div>
+    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; max-width: 600px; margin: 0 auto; padding: 1rem 1.5rem;">
+      
+      <!-- Calligraphy Signature Stamp Box -->
+      <div class="signature-badge-block">
+        <span class="signature-badge-title" style="font-family: var(--font-mono); font-size: 0.65rem; color: rgba(251, 191, 36, 0.7); text-transform: uppercase;">Official Verified Signature</span>
+        <div class="signature-render-box">
+          <svg viewBox="0 0 400 160" class="signature-gold-svg">
+            <defs>
+              <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#fbbf24" />
+                <stop offset="35%" stop-color="#f59e0b" />
+                <stop offset="70%" stop-color="#d97706" />
+                <stop offset="100%" stop-color="#b45309" />
+              </linearGradient>
+              <filter id="goldGlow" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="3" result="blur" />
+                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+              </filter>
+            </defs>
+            
+            <!-- Calligraphy flourishes (arch curves representing hand-written sweeps) -->
+            <path d="M 25 50 Q 200 -12 375 45" fill="none" stroke="url(#goldGradient)" stroke-width="2" opacity="0.45" stroke-linecap="round"/>
+            <path d="M 40 55 Q 200 3 360 50" fill="none" stroke="url(#goldGradient)" stroke-width="1.2" opacity="0.3" stroke-linecap="round"/>
+
+            <!-- Intertwining Arabic Calligraphy styled name -->
+            <text x="50%" y="90" font-family="var(--font-calligraphy)" font-size="34" font-weight="bold" fill="url(#goldGradient)" text-anchor="middle" filter="url(#goldGlow)" style="letter-spacing: -0.5px;">
+              وليد خالد الفتلاوي
+            </text>
+
+            <!-- Bottom sweeping loop flourish path (replicates calligraphy sweeps) -->
+            <path d="M 50 102 C 140 145, 260 85, 350 115 C 385 125, 340 152, 290 142 C 220 128, 140 85, 95 128 C 82 140, 115 145, 140 138" fill="none" stroke="url(#goldGradient)" stroke-width="2.5" stroke-linecap="round" filter="url(#goldGlow)"/>
+            <path d="M 120 112 C 180 135, 230 112, 280 120" fill="none" stroke="url(#goldGradient)" stroke-width="1" opacity="0.7"/>
+
+            <!-- Footer title element -->
+            <text x="50%" y="152" font-family="var(--font-mono)" font-size="10" font-weight="600" fill="#94a3b8" opacity="0.6" text-anchor="middle" letter-spacing="1.5">
+              PHYSICS TEACHER • AL-MUTAMAYIZEEN
+            </text>
+          </svg>
+        </div>
+        <div class="signature-verified-tag">
+          <svg class="verified-mark-icon" viewBox="0 0 20 20" style="width: 12px; height: 12px; fill: var(--correct-green); display: inline-block;">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+          </svg>
+          <span style="font-size: 0.65rem; color: var(--text-muted); font-family: var(--font-mono);">التوقيع الرسمي المعتمد</span>
+        </div>
+      </div>
+
+      <!-- Bilingual Educational and Curriculum Branding -->
+      <div class="footer-branding rtl-text" style="font-size: 0.95rem; font-weight: 700; color: var(--text-primary); margin-top: 0.5rem; letter-spacing: normal;">
+        الأستاذ وليد خالد الفتلاوي
+      </div>
+      <div class="footer-sub rtl-text" style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 0.5rem;">
+        مدرس الفيزياء الأقدم • منهج الفيزياء لمدارس المتميزين وكلية بغداد (السادس العلمي)
+      </div>
+      <div class="footer-sub" style="font-size: 0.65rem; color: var(--text-muted); font-family: var(--font-mono);">
+        Specialist Physics Education • 6th Scientific Grade • Baghdad, Iraq
+      </div>
+    </div>
   </footer>
 
   <!-- ----------------------------------
